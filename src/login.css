@@ -1,0 +1,73 @@
+*{
+    text-decoration: none; /*아래밑줄 제거*/
+    color: black; /*글자색 검은색 고정*/
+    list-style: none; /*리스트 앞에 찍히는 점없애기*/
+    margin: 0px;
+    padding:0px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+
+.top {
+    background: chartreuse;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.middle{
+    background: chocolate;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_wrap{
+    background: cornflowerblue;
+    height: 250px;
+    width: 550px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_inner{
+    background: cornsilk;
+    height: 200px;
+    width: 500px;
+}
+
+.id_pw_wrap{
+    background: crimson;
+}
+
+.input_row:first-child{
+    margin-top: 30px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.input_row:last-child{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.input_row{
+    background: darkcyan;
+    border: 1px solid rgb(218,218,218);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input_row>input{
+    width: 450px;
+    height: 50px;
+}
+
+.bottom{
+    background: crimson;
+}
+
