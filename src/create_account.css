@@ -105,6 +105,47 @@
     cursor: pointer;
 }
 
+.content_user_address{
+    background-color: rgb(15, 75, 18);
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+/* 주소 넓이 맞추기 (첫번쨰, 두번째 제외)*/
+.content_user_address>span>input:not(:first-child):not(:nth-child(2)){
+    margin-top: 3px;
+    width: 100%;
+}
+
+/* 주소 왼쪽 마진주기 (두번째 버튼 제외)*/
+.content_user_address>span>input:not(:nth-child(2)){
+    padding-left: 5px;
+}
+
+.content_user_address>span>input:nth-child(2){
+    cursor: pointer;
+}
+
+
+
+.bottom{
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+.complete{
+    background-color: wheat;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.complete>input{
+    width:400px;
+}
 
 /* .error_next_box {
     margin-top: 9px;
