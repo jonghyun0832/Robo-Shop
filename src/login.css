@@ -10,64 +10,100 @@
 
 
 .top {
-    background: chartreuse;
+    /* background: chartreuse; */
     margin-top: 100px;
     display: flex;
     justify-content: center;
 }
 
 .middle{
-    background: chocolate;
-    height: 300px;
+    /* background: chocolate; */
+    height: 450px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    
 }
 
 .login_wrap{
-    background: cornflowerblue;
-    height: 250px;
+    /* background: cornflowerblue; */
+    margin-top: 30px;
+    height: 300px;
     width: 550px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.login_inner{
-    background: cornsilk;
-    height: 200px;
+
+.id_pw_wrap{
+    /* background: skyblue; */
     width: 500px;
 }
 
-.id_pw_wrap{
-    background: crimson;
-}
-
-.input_row:first-child{
-    margin-top: 30px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.input_row:last-child{
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
 
 .input_row{
-    background: darkcyan;
-    border: 1px solid rgb(218,218,218);
+    border: 2px solid rgb(218,218,218);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.input_row>input{
-    width: 450px;
+.input_row>form>input{
+    width: 430px;
     height: 50px;
+    border: 2px solid rgb(218,218,218);
+    padding-left: 5px;
 }
 
+.input_row>form>input:first-child{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-top: 10px;
+    
+}
+
+.input_row>form>input:nth-child(3){
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.input_row>form>input:last-child{
+    margin-top: 60px;
+    margin-bottom: 10px;
+    border: 2px solid yellow;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 15pt;
+    font-weight: 500;
+    color: white;
+    background-color: yellowgreen;
+    cursor: pointer;
+}
+
+.id_pw_option_wrap>ul>li{
+    /* background-color: slateblue; */
+    float: left;
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: 100;
+    
+}
+
+
+
+
 .bottom{
-    background: crimson;
+    /* background: crimson; */
+    text-align: center;
+    font-size: 30px;
+    height: 100px;
 }
 

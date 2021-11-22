@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>로그인</title>
     <link rel="stylesheet" type="text/css" href="login.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,28 +17,47 @@
             </div>
             <div class="middle">
                 <div class="login_wrap">
-                    <div class="login_inner">
-                        <div class="id_pw_wrap">
-                            <div class="input_row" id="id_line">
-                                <form action="#" name = "로그인" method="post">
-                                    <input type="text", name="login_id" placeholder="아이디">
-                                </form>
-                            </div>
-                            <div class="input_row" id="pw_line">
-                                <form action="#" method="post">
-                                    <input type="text", name="login_pw" placeholder="비밀번호">
-                                </form>
-                                
-                            </div>
+                    <div class="id_pw_wrap">
+                        <div class="input_row" id="id_line">
+                            <form action="login_check.php" name = "login_form" method="post">
+                                <input type="text", id = "id_val" name="id_val" placeholder="아이디"><br>
+                                <input type="password", id = "pw_val" name="pw_val" placeholder="비밀번호"><br>
+                                <input type="button" value="로그인" onclick="login_check()">
+                            </form>
+                            <script type="text/javascript">
+                                function login_check(){
+                                    if(!document.login_form.id_val.value){
+                                        alert("아이디를 입력하세요!");
+                                        document.login_form.id_val.focus();
+                                        return;
+                                    }
+                                    if(!document.login_form.pw_val.value){
+                                        alert("비밀번호를 입력하세요!");
+                                        document.login_form.pw_val.focus();
+                                        return;
+                                    }
+                                    console.log(222);
+                                    document.login_form.submit();
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
+                <div class="id_pw_option_wrap">
+                    <ul>
+                        <li><a href="#">아이디 찾기</a></li>
+                        <li><a href="#">비밀번호 찾기</a></li>
+                        <li><a href="#">회원가입</a></li>
+                    </ul>
+
+                </div>
             </div>
             <div class="bottom">
-                ddd
-                <!-- 비밀번호찾기 / 아이디찾기 / 회원가입 -->
+                배너
+                
             </div>
         </div>
     </div>
+
 </body>
 </html>
