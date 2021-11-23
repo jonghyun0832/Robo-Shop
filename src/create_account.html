@@ -16,55 +16,79 @@
         </div>
         <div class="middle">
             <div class="contents_wrap">
-                <div class=content_id>
-                    <h3><label for="id">아이디</label></h3>
+                <div class="content_id">
+                    <h3>
+                        <label for="id">아이디</label>
+                        <input type="checkbox" name="cb_id" id="cb_id" onClick="return false">
+                        <input type="button" value="중복확인" onclick="idEqualCheck()">
+                    </h3>
                     <span>
-                        <input type="text" name="id" id="id">
+                        <input type="text" name="id" id="id" onblur="idLengthCheck()">
                     </span>
-                    <!-- <span class="error_next_box">ddd</span> -->
+                    <h5><span>※ 최소 4자이상</span></h5>
                 </div>
                 <div class="content_pw">
-                    <h3><label for="pw">비밀번호</label></h3>
+                    <h3>
+                        <label for="pw">비밀번호</label>
+                        <input type="checkbox" name="cb_pw" id="cb_pw" onClick="return false">
+                    </h3>
                     <span>
-                        <input type="password" name="pw" id="pw">
+                        <input type="password" name="pw" id="pw" onblur="passwordLengthCheck()">
                     </span>
+                    <h5><span>※ 최소 6자이상</span></h5>
                 </div>
                 <div class="content_pw_check">
-                    <h3><label for="pw">비밀번호 재확인</label></h3>
+                    <h3>
+                        <label for="pw_check">비밀번호 재확인</label>
+                        <input type="checkbox" name="cb_pw_check" id="cb_pw_check" onClick="return false">
+                    </h3>
                     <span>
-                        <input type="password" name="pw_check" id="pw_check">
+                        <input type="password" name="pw_check" id="pw_check" onblur="passwordEqualCheck()">
                     </span>
                 </div>
                 <div class="content_user_name">
-                    <h3><label for="user_name">이름</label></h3>
+                    <h3>
+                        <label for="user_name">이름</label>
+                        <input type="checkbox" name="cb_name" id="cb_name" onClick="return false">
+                    </h3>
                     <span>
-                        <input type="text" name="user_name" id="user_name">
+                        <input type="text" name="user_name" id="user_name" onblur="nameCheck()">
                     </span>
                 </div>
                 <div class="content_user_email">
-                    <h3><label for="user_email">이메일</label></h3>
+                    <h3>
+                        <label for="user_email">이메일</label>
+                        <input type="checkbox" name="cb_email" id="cb_email" onClick="return false">
+                    </h3>
                     <span>
-                        <input type="email" name="user_email" id="user_email">
+                        <input type="text" name="user_email" id="user_email" onblur="emailCheck()">
                     </span>
                 </div>
                 <div class="content_user_phone">
-                    <h3><label for="user_phone">휴대폰번호</label></h3>
+                    <h3>
+                        <label for="user_phone">휴대폰번호</label>
+                        <input type="checkbox" name="cb_phone" id="cb_phone" onClick="return false">
+                    </h3>
                     <span>
-                        <input type="" name="user_phone" id="user_phone">
+                        <input type="" name="user_phone" id="user_phone" onblur="phoneCheck()" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
                     </span>
+                    <h5><span>※ - 제외하고 입력해주세요</span></h5>
                 </div>
                 <div class="content_user_address">
-                    <h3><label for="address_btn">주소</label></h3>
+                    <h3>
+                        <label for="address_btn">주소</label>
+                        <input type="checkbox" name="cb_address" id="cb_address" onClick="return false">
+                    </h3>
                     <span>
-                        <input type="text" id="postcode" placeholder="우편번호">
-                        <input type="button" id = "address_btn" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-                        <input type="text" id="user_address" placeholder="주소"><br>
-                        <input type="text" id="user_detailAddress" placeholder="상세주소"><br>
+                        <input type="text" id="postcode" placeholder="우편번호" readonly>
+                        <input type="button" id = "address_btn" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+                        <input type="text" id="user_address" placeholder="주소" readonly><br>
+                        <input type="text" id="user_detailAddress" placeholder="상세주소" onblur="checkAddress()"><br>
                         <input type="text" id="user_extraAddress" placeholder="참고항목">
                     </span>
                 </div>
                 <div class="complete">
-                    <input type="button" id="complete_create" value="회원가입">
+                    <input type="button" id="complete_create" onclick="createAccount()" value="회원가입">
                 </div>
             </div>
         </div>
@@ -75,7 +99,9 @@
 
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
-        function sample6_execDaumPostcode() {
+        var id_check = false;
+        var checkBoxList = new Array(false,false,false,false,false,false,false);
+        function execDaumPostcode() {
             new daum.Postcode({
                 oncomplete: function (data) {
                     // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -122,6 +148,223 @@
                 }
             }).open();
         }
+        //아이디 길이 확인
+        function idLengthCheck(){
+            var id = document.getElementById('id').value;
+            //var cb = false;   
+            
+            if (id.length<4){
+                alert('아이디는 최소 4자 이상입니다.')
+                id_check = false;
+                //cb = false;
+            } else {
+                //cb = true;
+                id_check = true;
+            }
+
+            // if (cb == true){
+            //     document.getElementById('cb_id').checked = true;
+            // } else {
+            //     document.getElementById('cb_id').checked = false;
+            // }
+        }
+        //아이디 중복확인
+        function idEqualCheck(){
+            var cb = false;
+            
+            //아이디 중복체크하고나서
+            cb = true;
+            if (cb == true && id_check == true){
+                document.getElementById('cb_id').checked = true;
+                checkBoxList[0]=true;
+                alert('사용 가능한 아이디입니다.')
+            } else {
+                document.getElementById('cb_id').checked = false;
+                checkBoxList[0]=false;
+                alert('아이디를 다시 작성해주세요.')
+            }
+            console.log(checkBoxList);
+        }
+        //패스워드 길이 확인
+        function passwordLengthCheck(){
+            var pw1 = document.getElementById('pw').value;
+            
+        
+            console.log(1111)
+            if(pw1.length < 6){
+                alert('비밀번호는 최소 6자 이상입니다')
+                document.getElementById('cb_pw').checked = false;
+                checkBoxList[1]=false;
+            } else{
+                document.getElementById('cb_pw').checked = true;
+                checkBoxList[1]=true;
+            }
+            console.log(checkBoxList);
+        }
+        //비밀번호 일치 확인
+        function passwordEqualCheck(){
+            var pw1 = document.getElementById('pw').value;
+            var pw2 = document.getElementById('pw_check').value;
+            
+            if(pw1 != pw2){
+                alert('비밀번호 불일치')
+                document.getElementById('cb_pw_check').checked = false;
+                checkBoxList[2]=false;
+            } else {
+                document.getElementById('cb_pw_check').checked = true;
+                checkBoxList[2]=true;
+            }
+            console.log(checkBoxList);
+        }
+        function nameCheck(){
+            var userName = document.getElementById('user_name').value;
+        
+            if (userName.length>= 1){
+                document.getElementById('cb_name').checked = true;
+                checkBoxList[3]=true;
+            } else {
+                document.getElementById('cb_name').checked = false;
+                checkBoxList[3]=false;
+            }
+            console.log(checkBoxList);
+        }
+        //이메일 입력 체크하기
+        function emailCheck(){
+            var usrEmail = document.getElementById('user_email').value;
+            console.log(usrEmail);
+            var usrEamilAddress;
+            var usrEamilSiteAddress;
+            //이메일 형식 확인 (@)
+            if (usrEmail.indexOf("@") !=-1){
+                var arrEmail = usrEmail.split('@')
+                usrEamilAddress = arrEmail[0];
+                usrEamilSiteAddress = arrEmail[1]
+                //이메일 형식 확인(.com)
+                if (usrEamilSiteAddress.indexOf(".com")!=-1){
+                    document.getElementById('cb_email').checked = true;
+                    checkBoxList[4]=true;
+                    //sql로 넘겨서 저장하기 수행
+                } else{
+                    document.getElementById('cb_email').checked = false;
+                    checkBoxList[4]=false;
+                    alert('이메일 형식(xxxx@xxx.com)으로 입력해주세요.')
+                }
+            } else {
+                document.getElementById('cb_email').checked = false;
+                checkBoxList[4]=false;
+                alert('이메일 형식(xxxx@xxx.com)으로 입력해주세요.')
+            }
+            console.log(checkBoxList);
+        }
+        //핸드폰 번호 체크하기
+        function phoneCheck(){
+            var usrPhone = document.getElementById('user_phone').value;
+            if (usrPhone.length <10){
+                alert("-를 제외한 핸드폰 번호를 입력해주세요\n010-1234-5678 -> 01012345678")
+                document.getElementById('cb_phone').checked = false;
+                checkBoxList[5]=false;
+            } else {
+                document.getElementById('cb_phone').checked = true;
+                checkBoxList[5]=true;
+            }
+            console.log(checkBoxList);
+        }
+        //주소 확인하기
+        function checkAddress(){
+            var addCheckPost = document.getElementById('postcode').value;
+            var addCheckDetail = document.getElementById('user_detailAddress').value;
+            
+            if (addCheckPost.length >= 1 && addCheckDetail.length >= 1){
+                document.getElementById('cb_address').checked = true;
+                checkBoxList[6]=true;
+            } else if(addCheckPost.length >= 1 && addCheckDetail.length == 0){
+                document.getElementById('cb_address').checked = false;
+                checkBoxList[6]=false;
+                alert("상세주소를 입력해주세요")
+            } else {
+                document.getElementById('cb_address').checked = false;
+                checkBoxList[6]=false;
+                alert("전체 주소를 입력해주세요")
+            }
+            console.log(checkBoxList);
+        }
+        //회원가입 버튼 눌렀을때
+        function createAccount(){
+            if(checkBoxList.includes(false) == true){
+                alert("모든 정보를 입력해주세요\n체크박스를 확인해주세요")
+            }
+            else {
+                //모든 정보가 입력되었고 이제 post를 활용해서 보내면된다.
+                console.log("모든정보가 들어있음")
+
+                //보낼 데이터 정리
+                var userData = {
+                    'usr_id' : document.getElementById('id').value,
+                    'usr_pw' : document.getElementById('pw').value,
+                    'usr_name' : document.getElementById('user_name').value,
+                    'usr_email' : document.getElementById('user_email').value,
+                    'usr_phoneNum' : document.getElementById('user_phone').value,
+                    'usr_addPost' : document.getElementById('postcode').value,
+                    'usr_addAddress' : document.getElementById('user_address').value,
+                    'usr_addDetail' : document.getElementById('user_detailAddress').value,
+                    'usr_addExtra' : document.getElementById('user_extraAddress').value
+                };
+
+                var newForm = document.createElement('form');
+                newForm.name = 'newForm';
+                newForm.method = 'get';
+                newForm.action = 'http://192.168.80.130/account_admin.php';
+                // newForm.target = '_blank';
+                for (var key in userData){
+                var input_data = document.createElement('input');
+
+                input_data.setAttribute("type", "text");
+                input_data.setAttribute("name",key);
+                input_data.setAttribute("value",userData[key]);
+
+                newForm.appendChild(input_data);
+                }
+                document.body.appendChild(newForm);
+
+                newForm.submit();
+
+
+
+                // const xhr = new XMLHttpRequest(); 
+                // const method = "GET"; 
+                // const url = "http://192.168.80.130/account_admin.php";
+
+                // const data = {
+                //     id = document.getElementById('id').value,
+                //     // pw = document.getElementById('pw').value,
+                //     // name = document.getElementById('user_name').value,
+                //     // email = document.getElementById('user_email').value,
+                //     // phoneNum = document.getElementById('user_phone').value,
+                //     // addPost = document.getElementById('postcode').value,
+                //     // addAddress = document.getElementById('user_address').value,
+                //     // addDetail = document.getElementById('user_detailAddress').value,
+                //     // addExtra = document.getElementById('user_extraAddress').value
+                // };
+
+                // xhr.open(method, url);
+                // xhr.setRequestHeader('Content-Type', 'application/json');
+                // xhr.addEventListener('readystatechange',function(event){
+                //     const {target} = event;
+
+                //     if (target.readyState === XMLHttpRequest.DONE) {
+                //         const {status} = target;
+
+                //         if (status === 0 || (status >= 200 && status < 400)) {
+                //             //제대로 처리된경우
+                //         } else {
+                //             //에러발생
+                //         }
+                //     }
+                // });
+                // xhr.send(JSON.stringify(data));
+            }
+        }
+        
     </script>
 
 </body>
