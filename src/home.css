@@ -1,0 +1,145 @@
+
+*{
+    text-decoration: none; /*아래밑줄 제거*/
+    color: black; /*글자색 검은색 고정*/
+    list-style: none; /*리스트 앞에 찍히는 점없애기*/
+    margin: 0px;
+    padding:0px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* .top_item{
+    height: 48px;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 100px;
+    align-items: center;
+}
+
+.top_item>li{
+    margin-left: 36px;
+} */
+
+
+
+.intro_bg{
+    background-image: url("img/다람쥐.jpeg");
+    width: 100%;
+    height : 750px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header{
+    background-color: rgba(0, 0, 0,0.3);
+    /* background-color: rgba(0,0,0,0.2); */
+    display: flex;
+    width: 100%;
+    margin: auto;
+    /* background:red ; */
+    height: 80px;
+    /* position: sticky; */
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    align-items: center;
+}
+
+.main_logo{
+    width: 250px;
+    /* line-height: 64px;
+    text-align: center; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_logo>a>img{
+    display: flex;
+}
+
+
+/* .searchArea{
+    
+    width:480px;
+    height: 40px;
+    margin-top: 12px;
+}
+.searchArea>form>input{
+    border: none;
+    width: 350px;
+    height: 40px;
+    font-size: 15px;
+    margin-left: 20px;
+    padding-left: 10px;
+}
+
+.searchArea>form>span{
+    
+    text-align: center;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #fff;
+    
+} */
+
+.nav{
+    margin-left: 12%;
+    display: flex;
+    width: calc(1280px - 200px - 480px);
+    /* background-color: blueviolet; */
+    line-height: 64px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav > li{
+    margin-left: 100px;
+}
+
+.intro_slogan{
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro_slogan>span{
+    font-size: 30px;
+}
+
+.main_product_intro1{
+    background-color: rgba(152, 84, 216,0.2);
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_product_intro2{
+    background-color: rgba(84, 152, 216, 0.2);
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_notice{
+    background-color: rgba(75, 216, 145, 0.2);
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tail{
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* display : block - span을 div처럼, inline - div를 span 처럼  non- 그냥없어짐(존재하는데 시야에서 안보임)
+부모에 flex주고 자식들한테 flex:2처럼주면 각각 분배가능 */

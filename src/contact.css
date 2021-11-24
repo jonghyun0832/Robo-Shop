@@ -1,0 +1,92 @@
+
+*{
+    text-decoration: none; /*아래밑줄 제거*/
+    color: black; /*글자색 검은색 고정*/
+    list-style: none; /*리스트 앞에 찍히는 점없애기*/
+    margin: 0px;
+    padding:0px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+.intro_bg{
+    background-image: url("img/다람쥐.jpeg");
+    width: 100%;
+    height : 705px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header{
+    background-color: rgba(0, 0, 0,0.3);
+    display: flex;
+    width: 100%;
+    margin: auto;
+    height: 80px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    align-items: center;
+}
+
+.main_logo{
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_logo>a>img{
+    display: flex;
+}
+
+
+.nav{
+    margin-left: 12%;
+    display: flex;
+    width: calc(1280px - 200px - 480px);
+    line-height: 64px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav > li{
+    margin-left: 100px;
+}
+
+/* .intro_slogan{
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro_slogan>span{
+    font-size: 30px;
+}
+
+.main_product_intro1{
+    background-color: rgba(152, 84, 216,0.2);
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_product_intro2{
+    background-color: rgba(84, 152, 216, 0.2);
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_notice{
+    background-color: rgba(75, 216, 145, 0.2);
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+

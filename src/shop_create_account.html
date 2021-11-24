@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <link rel="stylesheet" type="text/css" href="create_account.css">
+    <link rel="stylesheet" type="text/css" href="shop_create_account.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
 <body>
     <div class="wrap">
         <div class="top">
-            <a href="home.html"><img src="img/로고다람쥐.jpeg" width="244px" height="100px"></a>
+            <a href="shop.html"><img src="img/쇼핑몰다람쥐.jpg" width="244px" height="100px"></a>
         </div>
         <div class="middle">
             <div class="contents_wrap">
@@ -162,16 +162,16 @@
                 id_check = true;
             }
 
-            // if (cb == true){
-            //     document.getElementById('cb_id').checked = true;
-            // } else {
-            //     document.getElementById('cb_id').checked = false;
-            // }
+    
         }
         //아이디 중복확인
         function idEqualCheck(){
             var cb = false;
             
+            fetch('http://192.168.80.130/shop_id_check.php')
+            .then(response => response.json())
+            .then(changeRes => console.log(changeRes)) //콜백으로 변환된파일 출력
+            .catch(err =>console.log(err))
             //아이디 중복체크하고나서
             cb = true;
             if (cb == true && id_check == true){
@@ -312,8 +312,8 @@
 
                 var newForm = document.createElement('form');
                 newForm.name = 'newForm';
-                newForm.method = 'get';
-                newForm.action = 'http://192.168.80.130/account_admin.php';
+                newForm.method = 'post';
+                newForm.action = 'http://192.168.80.130/shop_account_admin.php';
                 // newForm.target = '_blank';
                 for (var key in userData){
                 var input_data = document.createElement('input');

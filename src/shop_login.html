@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" type="text/css" href="shop_login.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
@@ -13,13 +13,13 @@
     <div class="wrap">
         <div class="log_main">
             <div class="top">
-                <a href="home.html"><img src="img/로고다람쥐.jpeg" width="244px" height="100px"></a>
+                <a href="shop.html"><img src="img/쇼핑몰다람쥐.jpg" width="244px" height="100px"></a>
             </div>
             <div class="middle">
                 <div class="login_wrap">
                     <div class="id_pw_wrap">
                         <div class="input_row" id="id_line">
-                            <form action="login_check.php" name = "login_form" method="post">
+                            <form action="shop_login_check.php" name = "login_form" method="post">
                                 <input type="text", id = "id_val" name="id_val" placeholder="아이디"><br>
                                 <input type="password", id = "pw_val" name="pw_val" placeholder="비밀번호"><br>
                                 <input type="button" value="로그인" onclick="login_check()">
