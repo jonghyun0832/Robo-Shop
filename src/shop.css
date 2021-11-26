@@ -80,7 +80,7 @@
 }
 
 .content_advertise{
-    background-color: rgb(248, 196, 118);
+    /* background-color: rgb(248, 196, 118); */
     height: 400px;
 }
 
@@ -92,7 +92,7 @@
 }
 
 .card_item1{
-    background-color: brown;
+    /* background-color: brown; */
     height: 100%;
     width: 80%;
 }
@@ -105,7 +105,7 @@
 }
 
 .card_item2{
-    background-color: cadetblue;
+    /* background-color: cadetblue; */
     height: 100%;
     width: 80%;
 }
@@ -118,7 +118,7 @@
 }
 
 .card_item3{
-    background-color: cornflowerblue;
+    /* background-color: cornflowerblue; */
     height: 100%;
     width: 80%;
 }
