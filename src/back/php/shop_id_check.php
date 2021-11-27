@@ -3,20 +3,13 @@
 
     if ($post_data->id == '') die('false');
 
-    $host = '192.168.80.130';
-    $user = 'adminjonghyun';
-    $pw = 'tjwhdgus';
-    $dbname = 'robo_db';
-    $conn = mysqli_connect($host, $user, $pw, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    include "connect_mysql.php";
 
     $result = null;
 
     $sql = "SELECT user_id FROM user_table where user_id ='".$post_data->id."'";
     $result = mysqli_query($conn,$sql);
+    $exist = mysqli_num_rows($result);
     // try {
     //     //여기서 데이터 베이스 훑어보기
     //     $result = DB::query('SELECT * FROM user_table WHERE user_id=:id', array(':id' => $post_data->id));
@@ -27,11 +20,11 @@
 
     //데이터 베이스에서 중복되는걸 찾으면 result값이 0보다커짐
     //count($result) > 0
-    if (count($result) > 0) {
-        //중복안됨
+    if ($exist > 0) {
+        //중복
         echo 'false';
     } else {
-        //중복됨
+        //중복안됨
         echo 'true';
     }
 

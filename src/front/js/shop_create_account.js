@@ -57,7 +57,7 @@ function idEqualCheck(){
         return;
     }
     
-    fetch('http://192.168.80.130/shop_id_check.php',{
+    fetch('http://192.168.80.130/back/php/shop_id_check.php',{
         method:'POST',
         cache:'no-cache',
         headers:{
@@ -232,7 +232,7 @@ function createAccount(){
         var newForm = document.createElement('form');
         newForm.name = 'newForm';
         newForm.method = 'post';
-        newForm.action = 'http://192.168.80.130/shop_account_admin.php';
+        newForm.action = 'http://192.168.80.130/back/php/shop_account_admin.php';
         // newForm.target = '_blank';
         for (var key in userData){
         var input_data = document.createElement('input');
