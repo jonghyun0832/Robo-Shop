@@ -21,36 +21,58 @@
 <body>
     <div class="wrap">
         <div class="header">
-            <input type="button" value="등록하기" onclick="submit_content()"> 
+            <span class="write_data" onclick="writedata()">등록하기</span>
+            <!-- <input type="button" value="등록하기" onclick=""> -->
         </div>
         <div class="main_top">
             <p class="title">고객센터</p>
             <p class="subtitle">상품에 관련된 문의를 자유롭게 해주세요. </p>
         </div>
-        <div class="board_write_list_wrap">
-            <table class="board_write_list">
-                <caption>글쓰기 형식</caption>
-                <thead>
-                    <tr>
-                        <th>문의 내용을 적어주세요</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="ct_title">
-                        <td><input type="text" name="title" id="title" placeholder="제목을 입력해주세요."></td>
-                    </tr>
-                    <tr class="ct_content">
-                        <td><textarea name="content" id="content" cols="50" rows="10" placeholder="내용을 입력해주세요." wrap="hard"></textarea></td>
-                        
-                    </tr>
-                    <tr class="ct_img">
-                        <td><input type="file" name="find_img" id="find_img" accept="image/*"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <form action="../../back/php/shop_save_content.php" method="post" enctype="multipart/form-data" id="sendform">
+            <div class="board_write_list_wrap">
+                <table class="board_write_list">
+                    <caption>글쓰기 형식</caption>
+                    <thead>
+                        <tr>
+                            <th>문의 내용을 적어주세요</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <form action="../../back/php/shop_save_content.php"> -->
+                            <tr class="ct_title">
+                                <td><input type="text" name="title" id="title" placeholder="제목을 입력해주세요."></td>
+                            </tr>
+                            <tr class="ct_content">
+                                <td><textarea name="content" id="content" cols="50" rows="10" placeholder="내용을 입력해주세요." wrap="hard"></textarea></td>
+                                
+                            </tr>
+                            <tr class="ct_img">
+                                <td><input type="file" name="find_img" id="find_img" accept="image/*"></td>
+                            </tr>
+                        <!-- </form> -->
+                    </tbody>
+                </table>
+            </div>
+        </form>
     </div>
     <script>
+        function writedata() {
+            
+            let cm_title = document.getElementById('title');
+            let cm_content = document.getElementById('content');
+            if(cm_title.value == ""){
+                alert("제목을 입력해주세요.");
+            } else {
+                if (cm_content.value == ""){
+                    alert("내용을 입력해주세요.");
+                } else {
+                    let sendform = document.getElementById('sendform');
+                    sendform.submit();
+                }
+            }
+        }
+    </script>
+    <!-- <script>
         function submit_content() {
             //제목있나확인
             //글있나 확인
@@ -76,15 +98,6 @@
 
         newForm.appendChild(input_data);
         }
-
-        // var input_data = document.createElement('input');
-
-        // input_data.setAttribute("type", "file");
-        // input_data.setAttribute("name","cm_imagepath");
-
-
-        // newForm.appendChild(input_data);
-
         document.body.appendChild(newForm);
 
         newForm.submit();
@@ -95,6 +108,6 @@
         // document.body.appendChild(newForm);
         // }
         }
-    </script>
+    </script> -->
 </body>
 </html>

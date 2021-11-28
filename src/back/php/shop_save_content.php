@@ -1,9 +1,9 @@
 <?php
 
 
-    // $source = $_FILES['cm_imagepath']['tmp_name'];
-    // $dest = "./".basename($_FILES['cm_imagepath']['name']);
-    // move_uploaded_file($source,$dest);
+    $source = $_FILES['find_img']['tmp_name'];
+    $dest = "../../img".basename($_FILES['find_img']['name']);
+    move_uploaded_file($source,$dest);
 
     include "connect_mysql.php";
     include "session.php";
@@ -13,8 +13,8 @@
     //되어있다고 생각하고 바로 받아온다
     $user_id = $_SESSION['user_id'];
 
-    $cm_title = $_POST['cm_title'];
-    $cm_content = $_POST['cm_content'];
+    $cm_title = $_POST['title'];
+    $cm_content = $_POST['content'];
     // $cm_imagepath = $_POST['cm_imagepath'];
 
 
