@@ -1,0 +1,100 @@
+<!-- <?php
+    include "../../back/php/session.php";
+    여기서 시작할때 로그인 세션 확인해서 로그인 안되있으면
+    alert띄우고 로그인 페이지로 보내기하면됨
+    로그인 되어있으면 그냥 계속 실행할 수 있게 해주면된다.
+?> -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객센터-글쓰기</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/shop_customer_question_write.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="wrap">
+        <div class="header">
+            <input type="button" value="등록하기" onclick="submit_content()"> 
+        </div>
+        <div class="main_top">
+            <p class="title">고객센터</p>
+            <p class="subtitle">상품에 관련된 문의를 자유롭게 해주세요. </p>
+        </div>
+        <div class="board_write_list_wrap">
+            <table class="board_write_list">
+                <caption>글쓰기 형식</caption>
+                <thead>
+                    <tr>
+                        <th>문의 내용을 적어주세요</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="ct_title">
+                        <td><input type="text" name="title" id="title" placeholder="제목을 입력해주세요."></td>
+                    </tr>
+                    <tr class="ct_content">
+                        <td><textarea name="content" id="content" cols="50" rows="10" placeholder="내용을 입력해주세요." wrap="hard"></textarea></td>
+                        
+                    </tr>
+                    <tr class="ct_img">
+                        <td><input type="file" name="find_img" id="find_img" accept="image/*"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function submit_content() {
+            //제목있나확인
+            //글있나 확인
+            
+            //다되었을때 보내기
+            var userData = {
+                'cm_title' : document.getElementById('title').value,
+                'cm_content' : document.getElementById('content').value
+            };
+
+        var newForm = document.createElement('form');
+        newForm.name = 'newForm';
+        newForm.method = 'post';
+        newForm.enctype = 'multipart/form-data';
+        newForm.action = 'http://192.168.80.130/back/php/shop_save_content.php';
+        // newForm.target = '_blank';
+        for (var key in userData){
+        var input_data = document.createElement('input');
+
+        input_data.setAttribute("type", "text");
+        input_data.setAttribute("name",key);
+        input_data.setAttribute("value",userData[key]);
+
+        newForm.appendChild(input_data);
+        }
+
+        // var input_data = document.createElement('input');
+
+        // input_data.setAttribute("type", "file");
+        // input_data.setAttribute("name","cm_imagepath");
+
+
+        // newForm.appendChild(input_data);
+
+        document.body.appendChild(newForm);
+
+        newForm.submit();
+        
+
+        // // newForm.appendChild(input_data);
+
+        // document.body.appendChild(newForm);
+        // }
+        }
+    </script>
+</body>
+</html>

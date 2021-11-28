@@ -79,7 +79,7 @@
     background-size: 100%;
     margin-top: 5%;
     width: 100%;
-    height: 18%;
+    height: 20%;
     
 }
 
@@ -95,11 +95,125 @@
 }
 
 .subtitle{
-    
     font-size: 1em;
 }
 
-.main_wrap{
+
+table {
+    border-collapse: collapse;
+
+}
+
+caption {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.board_list_wrap{
+    padding: 100px;
+    
+}
+
+.board_list{
+    width: 100%;
+    border-top: 2px solid black;
+}
+
+.board_list tr{
+    border-bottom: 1px solid #ccc;
+}
+
+.board_list th,
+.board_list td {
+    /* border: 1px solid #999; */
+    padding: 10px;
+    font-size: 14px;
+}
+
+.board_list .first{
+    width: 10%;
+}
+
+.board_list .second{
+    width: 55%;
+}
+
+.board_list .third{
+    width: 15%;
+}
+
+.board_list .fourth{
+    width: 10%;
+}
+
+.board_list .fifth{
+    width: 10%;
+}
+
+.board_list td{
+    text-align: center;
+}
+
+.board_list .tit{
+    text-align: left;
+    margin-left: 20px;
+}
+
+.board_list .tit :hover{
+    text-decoration: underline;
+}
+
+.board_list_wrap .between{
+    
+    text-align: right;
+    margin-right: 5%;
+    margin-top: 3%;
+}
+
+.board_list_wrap .between a{
+    text-align: center;
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: #ccc;
+    width: 5%;
+    height: 3%;
+}
+
+
+.board_list_wrap .paging{
+    margin-top: 30px;
+    font-size: 0;
+    text-align: center;
+}
+
+.board_list_wrap .paging a {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 40px;
+    font-size: 12px;
+}
+
+.board_list_wrap .paging a:first-child{
+    margin-left: 0;
+}
+
+.board_list_wrap .paging a.bt{
+    background-color: #eee;
+    border:1px solid #eee;
+}
+
+.board_list_wrap .paging a.num{
+    border:1px solid #000;
+    font-weight: 600; 
+}
+
+/* .main_wrap{
     background-color: cadetblue;
     margin-top: 2%;
     height: 100%;
@@ -116,6 +230,6 @@
 
 .main_wrap>table>thead{
     background-color: burlywood;
-}
+} */
 
 

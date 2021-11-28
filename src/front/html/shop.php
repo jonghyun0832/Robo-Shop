@@ -45,7 +45,7 @@
         </div>
         <div class="header">
             <div class="main_logo">
-                <a href="../html/shop.html">    
+                <a href="../html/shop.php">    
                     <img src="../../img/쇼핑몰다람쥐.jpg" width="150px" height="64px">
                 </a>
             </div>
@@ -53,7 +53,7 @@
                 <li><a href="#">로봇 키트</a></li>
                 <li><a href="#">로봇 모터</a></li>
                 <li><a href="#">기타용품</a></li>
-                <li><a href="customer_question.php">고객센터</a></li>
+                <li><a href="shop_customer_question.php">고객센터</a></li>
             </ul>
             <div class="searchArea">
                 <!-- 서치.php만들어줘야함 -->

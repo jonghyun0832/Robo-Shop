@@ -1,0 +1,105 @@
+*{
+    text-decoration: none; /*아래밑줄 제거*/
+    color: black; /*글자색 검은색 고정*/
+    list-style: none; /*리스트 앞에 찍히는 점없애기*/
+    margin: 0px;
+    padding:0px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.header{
+    position: fixed;
+    top: 0px;
+    right : 0px;
+    padding-top: 50px;
+    padding-right: 100px;
+    display: flex;
+    justify-content: right;
+}
+
+.header input {
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: #ccc;
+    color: rgb(15, 15, 15);
+}
+
+.main_top{
+    background-image: url(../../img/title_bg.jpg);
+    background-size: 100%;
+    margin-top: 3%;
+    width: 100%;
+    height: 20%;
+    
+}
+
+.main_top>p{
+    margin-left: 15%;
+}
+
+.title{
+    
+    font-size: 3em;
+    line-height: 1.5em;
+    
+}
+
+.subtitle{
+    
+    font-size: 1em;
+}
+
+caption{
+    display: none;
+}
+
+.board_write_list_wrap{
+    padding: 5% 20%;
+}
+
+.board_write_list{
+    width: 100%;
+    border: 2px solid black;
+}
+
+.board_write_list tr {
+    border-bottom: 1px solid #ccc;
+}
+
+.board_write_list tr th{
+    text-align: left;
+}
+
+
+.board_write_list th,
+.board_write_list td{
+        
+        padding: 10px;
+        font-size: 14px;
+}
+
+.board_write_list .ct_title{
+    
+    height: 70px;
+}
+
+.board_write_list .ct_title td input{
+    width: 80%;
+    font-size: 16px;
+}
+
+.board_write_list .ct_content{
+    margin-top: 20px;
+    height: 400px;
+}
+
+.board_write_list .ct_content td textarea{
+    width: 80%;
+    height: 380px;
+    font-size: 16px;
+}
+
+.board_write_list .ct_img{
+    
+    height: 50px;
+}
