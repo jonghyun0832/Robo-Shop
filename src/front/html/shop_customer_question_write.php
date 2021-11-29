@@ -1,9 +1,35 @@
-<!-- <?php
+<?php
     include "../../back/php/session.php";
-    여기서 시작할때 로그인 세션 확인해서 로그인 안되있으면
-    alert띄우고 로그인 페이지로 보내기하면됨
-    로그인 되어있으면 그냥 계속 실행할 수 있게 해주면된다.
-?> -->
+    include "../../back/php/connect_mysql.php";
+
+    // 로그인 했을때만 글 작성 화면으로 넘아간다.
+    if ($is_login == FALSE){
+        echo "<script>alert('로그인 후 이용해주세요.');
+        location.href='http://192.168.80.130//front/html/shop_login.html'
+        </script>";
+    }
+    $content_id = $_POST['cm_id'];
+
+    $isnew = true;
+
+    if (empty($content_id)){
+        echo "새글임";
+        //새로 작성하는 글임
+    } else {
+        //업데이트 하는 글임
+        echo "업데이트임";
+        $isnew = false;
+        $sql = "SELECT * FROM community_table WHERE cm_id = '".$content_id."'";
+        $result = mysqli_query($conn,$sql);
+        $row= mysqli_fetch_array($result);
+        $cm_title = $row['cm_title'];
+        $cm_cdate = $row['cm_cdate'];
+        $cm_view = $row['cm_view'];
+        $cm_content = $row['cm_content'];
+        $cm_imgpath = $row['cm_imagepath'];
+    }
+
+?>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -38,7 +64,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <form action="../../back/php/shop_save_content.php"> -->
+                            <?php
+                                if ($isnew == true){ //새글일떄
+                            ?>
                             <tr class="ct_title">
                                 <td><input type="text" name="title" id="title" placeholder="제목을 입력해주세요."></td>
                             </tr>
@@ -49,7 +77,25 @@
                             <tr class="ct_img">
                                 <td><input type="file" name="find_img" id="find_img" accept="image/*"></td>
                             </tr>
-                        <!-- </form> -->
+                            <?php
+                                }
+                                else { //업데이트일때
+                            ?>
+                            <tr class="ct_title">
+                                <td><input type="text" name="title" id="title" placeholder="제목을 입력해주세요." value=<?=$cm_title?>></td>
+                            </tr>
+                            <tr class="ct_content">
+                                <td><textarea name="content" id="content" cols="50" rows="10" placeholder="내용을 입력해주세요." wrap="hard" ><?=$cm_content?></textarea></td>
+                                
+                            </tr>
+                            <!-- 이미지도해야함 -->
+                            <tr class="ct_img">
+                                <td><input type="file" name="find_img" id="find_img" accept="image/*"></td>
+                            </tr>
+                            <?php
+                                }
+                            ?>
+                            
                     </tbody>
                 </table>
             </div>
@@ -57,7 +103,7 @@
     </div>
     <script>
         function writedata() {
-            
+            console.log("dsdsdsd")
             let cm_title = document.getElementById('title');
             let cm_content = document.getElementById('content');
             if(cm_title.value == ""){
@@ -67,6 +113,24 @@
                     alert("내용을 입력해주세요.");
                 } else {
                     let sendform = document.getElementById('sendform');
+
+                    let input_data = document.createElement('input');
+
+                    input_data.setAttribute("type", "text");
+                    input_data.setAttribute("name",'isnew');
+                    input_data.setAttribute("value",'<?=$isnew?>');
+
+                    sendform.appendChild(input_data);
+
+                    let input_data2 = document.createElement('input');
+
+                    input_data2.setAttribute("type", "text");
+                    input_data2.setAttribute("name",'cm_id');
+                    input_data2.setAttribute("value",'<?=$content_id?>');
+
+                    sendform.appendChild(input_data2);
+
+                    document.body.appendChild(sendform);
                     sendform.submit();
                 }
             }

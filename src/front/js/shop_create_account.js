@@ -246,40 +246,5 @@ function createAccount(){
         document.body.appendChild(newForm);
 
         newForm.submit();
-
-
-
-        // const xhr = new XMLHttpRequest(); 
-        // const method = "GET"; 
-        // const url = "http://192.168.80.130/account_admin.php";
-
-        // const data = {
-        //     id = document.getElementById('id').value,
-        //     // pw = document.getElementById('pw').value,
-        //     // name = document.getElementById('user_name').value,
-        //     // email = document.getElementById('user_email').value,
-        //     // phoneNum = document.getElementById('user_phone').value,
-        //     // addPost = document.getElementById('postcode').value,
-        //     // addAddress = document.getElementById('user_address').value,
-        //     // addDetail = document.getElementById('user_detailAddress').value,
-        //     // addExtra = document.getElementById('user_extraAddress').value
-        // };
-
-        // xhr.open(method, url);
-        // xhr.setRequestHeader('Content-Type', 'application/json');
-        // xhr.addEventListener('readystatechange',function(event){
-        //     const {target} = event;
-
-        //     if (target.readyState === XMLHttpRequest.DONE) {
-        //         const {status} = target;
-
-        //         if (status === 0 || (status >= 200 && status < 400)) {
-        //             //제대로 처리된경우
-        //         } else {
-        //             //에러발생
-        //         }
-        //     }
-        // });
-        // xhr.send(JSON.stringify(data));
     }
 }

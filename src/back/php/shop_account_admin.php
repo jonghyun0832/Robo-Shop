@@ -34,7 +34,7 @@ if (!mysqli_query($conn,$sql)){
 }
 mysqli_close($conn);
 echo "<script>alert('회원가입완료');
-location.href='http://192.168.80.130//front/html/shop.html'
+location.href='http://192.168.80.130//front/html/shop.php'
 </script>";
 //header("location: http://192.168.80.130//front/html/shop.html");
 //echo "1 record added";

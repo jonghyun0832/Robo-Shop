@@ -1,14 +1,23 @@
 <?php
     include "../../back/php/session.php";
-    
-    //글쓰기 눌렀을때는 로그인 했어야 글쓸수 있게 만들어주면됨
-
-    //sql 내부 데이터 개수 파악
     include "../../back/php/connect_mysql.php";
 
-    $sql = "SELECT * FROM community_table ORDER BY cm_id DESC";
+    $content_id = $_GET['cm_id'];
+    $login_user_id = $_SESSION['user_id'];
+
+    $sql = "SELECT * FROM community_table WHERE cm_id = '".$content_id."'";
     $result = mysqli_query($conn,$sql);
-    $exist_num = mysqli_num_rows($result);
+    $row= mysqli_fetch_array($result);
+    $user_id = $row['user_id'];
+    $cm_title = $row['cm_title'];
+    $cm_cdate = $row['cm_cdate'];
+    $cm_view = $row['cm_view'];
+    $cm_content = $row['cm_content'];
+    $cm_imgpath = $row['cm_imagepath'];
+
+    $cm_content_convert = str_replace("\r\n", "<br>",$cm_content);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -16,9 +25,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>고객센터</title>
+    <title>제목가져와서 붙이기</title>
 
-    <link rel="stylesheet" type="text/css" href="../css/shop_customer_question.css">
+    <link rel="stylesheet" type="text/css" href="../css/shop_customer_question_read.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
@@ -59,7 +68,7 @@
                 <li><a href="shop_customer_question.php">고객센터</a></li>
             </ul>
             <div class="searchArea">
-                <!-- 서치.php만들어줘야함 / sendsearch 메소드 아직 안만들어줬음 -->
+                <!-- 서치.php만들어줘야함 온클릭 메소드도 만들어줘야함-->
                 <form action="../../back/php/shop_search.php" name = "검색" method = "get">
                     <input type="search" name = "user_search" id = 'user_search' placeholder="Search">
                     <span><img src="../../img/검색.png" height="25px" onclick="sendSearch()"></span>
@@ -70,64 +79,41 @@
             <p class="title">고객센터</p>
             <p class="subtitle">상품에 관련된 문의를 자유롭게 해주세요. </p>
         </div>
-        <div class="board_list_wrap">
-            <table class ="board_list">
-                <caption>게시판 목록</caption>
-                <thead>
-                    <tr>
-                        <th class='first'>번호</th>
-                        <th class='second'>제목</th>
-                        <th class='third'>글쓴이</th>
-                        <th class='fourth'>작성일</th>
-                        <th class='fifth'>조회수</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="content_wrap">
+            <div class="content_header">
+                <span><?=$user_id?></span>
+                <span><?=$cm_cdate?></span>
+                <span>조회수 : <?=$cm_view?></span>
+            </div>
+            <div class="content_title">
+                <?=$cm_title?>
+            </div>
+            <div class="content_body">
                 <?php
-                    for ($i=0; $i<$exist_num; $i=$i+1){
-                        $row= mysqli_fetch_array($result);
-                        
-                        $cm_id = $row['cm_id'];
-                        $user_id = $row['user_id'];
-                        $cm_title = $row['cm_title'];
-                        $cm_cdate = $row['cm_cdate'];
-                        $cm_view = $row['cm_view'];
-                        $cm_get = "http://192.168.80.130//front/html/shop_customer_question_read.php"."?cm_id=".$cm_id;
+                    //이미지 경로가 존재하면 이미지 띄워주기
+                    if ($cm_imgpath != ""){
                 ?>
-                    <tr>
-                        <td><?= $cm_id ?></td>
-                        <td class="tit">
-                            <a href=<?=$cm_get?>><?= $cm_title ?></a>
-                        </td>
-                        <td><?= $user_id ?></td>
-                        <td><?= $cm_cdate ?></td>
-                        <td><?= $cm_view ?></td>
-                    </tr>
-                    <?php
-                        }
-                    ?>
-                </tbody>
-            </table>
-            <div class = "between">
-                <!-- <a href="shop_customer_question_write.php" onclick = "create_content()">글쓰기</a> -->
-                <span onclick = "create_content()">글쓰기</span>
+                <div class="img_area"><img src="<?=$cm_imgpath?>" alt="컨텐츠사진"></div>
+                <?php
+                    }
+                ?>
+                <div class="text_area"><?=$cm_content_convert?></div>
             </div>
-            <div class="paging">
-                <a href="#" class="btn">처음</a>
-                <a href="#" class="btn">이전</a>
-                <a href="#" class="num">1</a>
-                <a href="#" class="num">2</a>
-                <a href="#" class="num">3</a>
-                <a href="#" class="btn">다음</a>
-                <a href="#" class="btn">마지막</a>
+            <?php
+                if ($login_user_id == $user_id){
+            ?>
+            <div class = "content_tail">
+                    <span onclick = "update_content()">수정</span>
+                    <span onclick="delete_content()">삭제</span>
             </div>
+            <?php
+                }
+            ?>
         </div>
-        
-
     </div>
-
     <script>
-        function create_content(){
+        function update_content() {
+
             let newForm = document.createElement('form');
             newForm.name = 'newForm';
             newForm.method = 'post';
@@ -137,14 +123,27 @@
 
             input_data.setAttribute("type", "text");
             input_data.setAttribute("name",'cm_id');
-            input_data.setAttribute("value","");
+            input_data.setAttribute("value",<?=$content_id?>);
 
             newForm.appendChild(input_data);
             document.body.appendChild(newForm);
             newForm.submit();
+            
+        }
+        function delete_content() {
+            if (confirm("정말 삭제하시겠습니까?") == true){
+                //삭제
+                fetch('http://192.168.80.130/back/php/delete_content.php?cm_id='+'<?=$content_id?>'+'&img_path='+'<?=$cm_imgpath?>')
+                .then((res) => res.text())
+                .then((data) => {
+                    console.log(data);
+                    alert("삭제가 완료되었습니다.")
+                    location.href='http://192.168.80.130/front/html/shop_customer_question.php';
+                });
+            } else{
+                return;
+            }
         }
     </script>
-    
-    
 </body>
 </html>
