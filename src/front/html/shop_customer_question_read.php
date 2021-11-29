@@ -3,7 +3,11 @@
     include "../../back/php/connect_mysql.php";
 
     $content_id = $_GET['cm_id'];
-    $login_user_id = $_SESSION['user_id'];
+    if ($is_login == TRUE){
+        $login_user_id = $_SESSION['user_id'];
+    } else {
+        $login_user_id = "";
+    }
 
     $sql = "SELECT * FROM community_table WHERE cm_id = '".$content_id."'";
     $result = mysqli_query($conn,$sql);

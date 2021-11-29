@@ -9,6 +9,8 @@
         </script>";
     }
     $content_id = $_POST['cm_id'];
+    $cm_img_name = "";
+    $cm_imgpath = "";
 
     $isnew = true;
 
@@ -27,6 +29,8 @@
         $cm_view = $row['cm_view'];
         $cm_content = $row['cm_content'];
         $cm_imgpath = $row['cm_imagepath'];
+        $tmp_arr = explode("_",$cm_imgpath);
+        $cm_img_name = $tmp_arr[1];
     }
 
 ?>
@@ -75,7 +79,11 @@
                                 
                             </tr>
                             <tr class="ct_img">
-                                <td><input type="file" name="find_img" id="find_img" accept="image/*"></td>
+                                <td>
+                                    <input type="file" name="find_img" id="find_img" accept="image/*">
+                                    <label for="find_img" class="btn_file">파일선택</label>
+                                    <span id="fileName">선택된 파일 없음</span>
+                                </td>
                             </tr>
                             <?php
                                 }
@@ -85,12 +93,17 @@
                                 <td><input type="text" name="title" id="title" placeholder="제목을 입력해주세요." value=<?=$cm_title?>></td>
                             </tr>
                             <tr class="ct_content">
-                                <td><textarea name="content" id="content" cols="50" rows="10" placeholder="내용을 입력해주세요." wrap="hard" ><?=$cm_content?></textarea></td>
-                                
+                                <td>
+                                    <textarea name="content" id="content" cols="50" rows="10" placeholder="내용을 입력해주세요." wrap="hard"><?=$cm_content?></textarea>
+                                </td>
                             </tr>
                             <!-- 이미지도해야함 -->
                             <tr class="ct_img">
-                                <td><input type="file" name="find_img" id="find_img" accept="image/*"></td>
+                                <td>
+                                <input type="file" name="find_img" id="find_img" accept="image/*">
+                                <label for="find_img" class="btn_file">파일선택</label>
+                                <span id="fileName"><?=$cm_img_name?></span>
+                            </td>
                             </tr>
                             <?php
                                 }
@@ -130,11 +143,38 @@
 
                     sendform.appendChild(input_data2);
 
+                    let input_data3 = document.createElement('input');
+
+                    input_data3.setAttribute("type", "text");
+                    input_data3.setAttribute("name",'prev_img');
+                    input_data3.setAttribute("value",'<?=$cm_img_name?>');
+
+                    sendform.appendChild(input_data3);
+
+                    let input_data4 = document.createElement('input');
+
+                    input_data4.setAttribute("type", "text");
+                    input_data4.setAttribute("name",'prev_img_path');
+                    input_data4.setAttribute("value",'<?=$cm_imgpath?>');
+
+                    sendform.appendChild(input_data4);
+
+
                     document.body.appendChild(sendform);
                     sendform.submit();
                 }
             }
         }
+
+        document.getElementById('find_img').addEventListener('change', function(){
+        var filename = document.getElementById('fileName');
+        if(this.files[0] == undefined){
+            filename.innerText = '선택된 파일없음';
+            return;
+        }
+        filename.innerText = this.files[0].name;
+        });
+
     </script>
     <!-- <script>
         function submit_content() {

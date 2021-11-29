@@ -100,7 +100,21 @@ caption{
     font-size: 16px;
 }
 
-.board_write_list .ct_img{
-    
+.board_write_list .ct_img{   
     height: 50px;
+}
+
+.ct_img td input{
+    clip:rect(0 0 0 0);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.ct_img td label{
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 5px;
 }
