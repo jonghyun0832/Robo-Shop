@@ -68,7 +68,7 @@
         }
         mysqli_close($conn);
         echo "<script>alert('글 수정 완료');
-        location.href='http://192.168.80.130//front/html/shop_customer_question.php'
+        location.href='http://192.168.80.130//front/html/shop_customer_question_read.php?cm_id='+'$cm_id'
         </script>";
 
     }

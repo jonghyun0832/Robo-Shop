@@ -6,7 +6,7 @@
     //sql 내부 데이터 개수 파악
     include "../../back/php/connect_mysql.php";
 
-    $sql = "SELECT * FROM community_table ORDER BY cm_id DESC";
+    $sql = "SELECT * FROM community_table C INNER JOIN user_table U ON C.user_id = U.user_id ORDER BY cm_id DESC";
     $result = mysqli_query($conn,$sql);
     $exist_num = mysqli_num_rows($result);
 ?>
@@ -38,7 +38,7 @@
                 }else { //로그인 완료
             ?>
             <ul class="top_item">
-                <li><?php echo $_SESSION['user_id']?>님 안녕하세요</li>
+                <li><?php echo $_SESSION['user_name']?>님 안녕하세요</li>
                 <li><a href="../../back/php/shop_logout.php">로그아웃</a></li>
                 <li><a href="">장바구니</a></li>
             </ul>
@@ -53,8 +53,7 @@
                 </a>
             </div>
             <ul class="nav">
-                <li><a href="#">로봇 키트</a></li>
-                <li><a href="#">로봇 모터</a></li>
+                <li><a href="shop_rb_list.php">로봇 키트</a></li>
                 <li><a href="#">기타용품</a></li>
                 <li><a href="shop_customer_question.php">고객센터</a></li>
             </ul>
@@ -88,7 +87,8 @@
                         $row= mysqli_fetch_array($result);
                         
                         $cm_id = $row['cm_id'];
-                        $user_id = $row['user_id'];
+                        // $user_id = $row['user_id'];
+                        $user_name = $row['user_name'];
                         $cm_title = $row['cm_title'];
                         $cm_cdate = $row['cm_cdate'];
                         $cm_view = $row['cm_view'];
@@ -99,7 +99,7 @@
                         <td class="tit">
                             <a href=<?=$cm_get?>><?= $cm_title ?></a>
                         </td>
-                        <td><?= $user_id ?></td>
+                        <td><?= $user_name?></td>
                         <td><?= $cm_cdate ?></td>
                         <td><?= $cm_view ?></td>
                     </tr>

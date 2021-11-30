@@ -51,7 +51,7 @@
                 }else { //로그인 완료
             ?>
             <ul class="top_item">
-                <li><?php echo $_SESSION['user_id']?>님 안녕하세요</li>
+                <li><?php echo $_SESSION['user_name']?>님 안녕하세요</li>
                 <li><a href="../../back/php/shop_logout.php">로그아웃</a></li>
                 <li><a href="">장바구니</a></li>
             </ul>
@@ -66,8 +66,7 @@
                 </a>
             </div>
             <ul class="nav">
-                <li><a href="#">로봇 키트</a></li>
-                <li><a href="#">로봇 모터</a></li>
+                <li><a href="shop_rb_list.html">로봇 키트</a></li>
                 <li><a href="#">기타용품</a></li>
                 <li><a href="shop_customer_question.php">고객센터</a></li>
             </ul>
@@ -97,14 +96,14 @@
                     //이미지 경로가 존재하면 이미지 띄워주기
                     if ($cm_imgpath != ""){
                 ?>
-                <div class="img_area"><img src="<?=$cm_imgpath?>" alt="컨텐츠사진"></div>
+                <div class="img_area"><img src="<?=$cm_imgpath?>" alt="컨텐츠사진" style="max-width: 600px; height: auto;"></div>
                 <?php
                     }
                 ?>
                 <div class="text_area"><?=$cm_content_convert?></div>
             </div>
             <?php
-                if ($login_user_id == $user_id){
+                if ($login_user_id == $user_id || $login_user_id == "admin123"){
             ?>
             <div class = "content_tail">
                     <span onclick = "update_content()">수정</span>
