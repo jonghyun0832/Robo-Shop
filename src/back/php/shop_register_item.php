@@ -25,8 +25,14 @@
         die('Error: ' . mysqli_error($conn));
     }
     mysqli_close($conn);
-    echo "<script>alert('상품 등록 완료');
-    location.href='http://192.168.80.130//front/html/shop_rb_list.php'
-    </script>";
+    if ($cg_id =="1"){ //1번 카테고리 - 로봇키트로 돌아가기
+        echo "<script>alert('상품 등록 완료');
+        location.href='http://192.168.80.130//front/html/shop_rb_list.php'
+        </script>";
+    } else { //2번 카테고리 - 기타용품으로 돌아가기
+        echo "<script>alert('상품 등록 완료');
+        location.href='http://192.168.80.130//front/html/shop_eq_list.php'
+        </script>";
+    }
 
 ?>

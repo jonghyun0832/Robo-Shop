@@ -2,6 +2,8 @@
     include "../../back/php/session.php";
     include "../../back/php/connect_mysql.php";
 
+    $cg_id_prev = $_POST['cg_id'];
+
 
     $sql = "SELECT * FROM pd_category_table
     ORDER BY cg_id;";
@@ -49,11 +51,11 @@
         <div class="header">
             <div class="main_logo">
                 <a href="../html/shop.php">    
-                    <img src="../../img/쇼핑몰다람쥐.jpg" width="150px" height="64px">
+                    <img src="../../img/mainLogo.png" width="150px" height="64px">
                 </a>
             </div>
             <ul class="nav">
-                <li><a href="shop_rb_list.php">로봇 키트</a></li>
+                <li><a href="shop_rb_list.php">로봇키트</a></li>
                 <li><a href="shop_eq_list.html">기타용품</a></li>
                 <li><a href="shop_customer_question.php">고객센터</a></li>
             </ul>
@@ -61,7 +63,7 @@
                 <!-- 서치.php만들어줘야함 -->
                 <form action="../../back/php/shop_search.php" name = "검색" method = "get">
                     <input type="search" name = "user_search" id = 'user_search' placeholder="Search">
-                    <span><img src="../../img/검색.png" height="25px" onclick="sendSearch()"></span>
+                    <span><img src="../../img/search.png" height="25px" onclick="sendSearch()"></span>
                 </form>
             </div>
         </div>
@@ -124,7 +126,7 @@
                 </div>
                 <div class="end">
                     <span onclick="register()">등록하기</span>
-                    <span onclick="cancel()">취소</span>
+                    <span onclick="cancel('<?=$cg_id_prev?>')">취소</span>
                 </div>
             </div>
         </div>
@@ -169,11 +171,14 @@
             
         }
 
-        function cancel() {
+        function cancel(cg_id_prev) { //이전페이지가 뭐였는지 카테고리번호로 판단
             if (confirm("정말 취소하시겠습니까?\n이제까지 작성한 데이터는 사라집니다") == true){
                 //상품리스트 페이지로 돌아가기
-                location.href='http://192.168.80.130/front/html/shop_rb_list.php';
-                //카테고리 분기점
+                if (cg_id_prev == "1"){ //1번 로봇키트 카테고리 페이지로
+                    location.href='http://192.168.80.130/front/html/shop_rb_list.php';
+                } else { //2번 기타용품 카테고리 페이지로
+                    location.href='http://192.168.80.130/front/html/shop_eq_list.php';
+                }
             } else{
                 return;
             }

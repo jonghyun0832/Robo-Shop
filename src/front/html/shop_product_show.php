@@ -66,11 +66,11 @@
         <div class="header">
             <div class="main_logo">
                 <a href="../html/shop.php">    
-                    <img src="../../img/쇼핑몰다람쥐.jpg" width="150px" height="64px">
+                    <img src="../../img/mainLogo.png" width="150px" height="64px">
                 </a>
             </div>
             <ul class="nav">
-                <li><a href="shop_rb_list.php">로봇 키트</a></li>
+                <li><a href="shop_rb_list.php">로봇키트</a></li>
                 <li><a href="shop_eq_list.html">기타용품</a></li>
                 <li><a href="shop_customer_question.php">고객센터</a></li>
             </ul>
@@ -78,7 +78,7 @@
                 <!-- 서치.php만들어줘야함 -->
                 <form action="../../back/php/shop_search.php" name = "검색" method = "get">
                     <input type="search" name = "user_search" id = 'user_search' placeholder="Search">
-                    <span><img src="../../img/검색.png" height="25px" onclick="sendSearch()"></span>
+                    <span><img src="../../img/search.png" height="25px" onclick="sendSearch()"></span>
                 </form>
             </div>
         </div>

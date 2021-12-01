@@ -11,20 +11,19 @@
 
     $sql = "SELECT * FROM pd_info_table I 
     INNER JOIN pd_category_table C ON I.cg_id = C.cg_id 
-    WHERE I.cg_id = 1
+    WHERE I.cg_id = 2
     ORDER BY I.pd_id DESC;";
     $result = mysqli_query($conn,$sql);
     $exist_num = mysqli_num_rows($result);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로봇키트</title>
+    <title>기타 용품</title>
 
     <link rel="stylesheet" type="text/css" href="../css/shop_rb_list.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,7 +45,7 @@
                 }else { //로그인 완료
             ?>
             <ul class="top_item">
-                <li><?php echo $_SESSION['user_name']?>님 안녕하세요</li>
+                <li><?php echo $_SESSION['user_id']?>님 안녕하세요</li>
                 <li><a href="../../back/php/shop_logout.php">로그아웃</a></li>
                 <li><a href="">장바구니</a></li>
             </ul>
@@ -74,8 +73,8 @@
             </div>
         </div>
         <div class="main_top">
-            <p class="title">로봇키트</p>
-            <p class="subtitle">로봇 제작용 재료들입니다.</p>
+            <p class="title">기타 용품</p>
+            <p class="subtitle">제작용 기타 용품입니다. </p>
         </div>
         <div class="product_list_wrap">
             <ul class="product_list">
@@ -160,7 +159,7 @@
 
             input_data.setAttribute("type", "text");
             input_data.setAttribute("name",'cg_id');
-            input_data.setAttribute("value","1");
+            input_data.setAttribute("value","2");
 
             newForm.appendChild(input_data);
             document.body.appendChild(newForm);
@@ -181,7 +180,7 @@
                 .then((data) => {
                     console.log(data);
                     alert("삭제가 완료되었습니다.")
-                    location.href='http://192.168.80.130/front/html/shop_rb_list.php';
+                    location.href='http://192.168.80.130/front/html/shop_eq_list.php';
                     //카테고리 분기점-이건그냥 자기한테 와야함
                 });
             } else{
@@ -189,6 +188,5 @@
             }
         }
     </script>
-    
 </body>
 </html>
