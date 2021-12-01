@@ -15,11 +15,11 @@
     $isnew = true;
 
     if (empty($content_id)){
-        echo "새글임";
+        
         //새로 작성하는 글임
     } else {
         //업데이트 하는 글임
-        echo "업데이트임";
+        
         $isnew = false;
         $sql = "SELECT * FROM community_table WHERE cm_id = '".$content_id."'";
         $result = mysqli_query($conn,$sql);

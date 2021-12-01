@@ -66,7 +66,7 @@
                 </a>
             </div>
             <ul class="nav">
-                <li><a href="shop_rb_list.html">로봇 키트</a></li>
+                <li><a href="shop_rb_list.php">로봇 키트</a></li>
                 <li><a href="#">기타용품</a></li>
                 <li><a href="shop_customer_question.php">고객센터</a></li>
             </ul>

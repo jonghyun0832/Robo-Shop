@@ -127,13 +127,13 @@ caption {
     padding: 10px;
 }
 
-.product_wrap div img{
+.product_wrap div a img{
     border-bottom: 2px solid black;
     padding-bottom: 20px;
     cursor: pointer;
 }
 
-.product_list .pd_title {
+.product_list .pd_title a {
     padding-top: 10px;
     color: #026AC1;
     cursor: pointer;
@@ -197,6 +197,7 @@ caption {
     border:1px solid #000;
     font-weight: 600; 
 }
+
 
 
 

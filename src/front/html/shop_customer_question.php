@@ -127,6 +127,7 @@
     </div>
 
     <script>
+        //스크립트 분리필요
         function create_content(){
             let newForm = document.createElement('form');
             newForm.name = 'newForm';

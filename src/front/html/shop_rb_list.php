@@ -75,7 +75,7 @@
         </div>
         <div class="main_top">
             <p class="title">로봇 키트</p>
-            <p class="subtitle">로봇 제작용 재료들입니다. </p>
+            <p class="subtitle">로봇 제작용 재료들입니다.</p>
         </div>
         <div class="product_list_wrap">
             <ul class="product_list">
@@ -89,13 +89,18 @@
                         $pd_imgpath = $row['pd_imgpath']; //상품이미지 1
                         $pd_content = $row['pd_content']; //상품설명
                         $cg_name = $row['cg_name']; //카테고리 이름
-                        $pd_get = "http://192.168.80.130//front/html/#.php"."?pd_id=".$pd_id;
+                        $pd_get = "http://192.168.80.130//front/html/shop_product_show.php?pd_id=".$pd_id;
+    
                 ?>
                 <li class="product_wrap">
                     <div>
-                        <img src="<?=$pd_imgpath?>" name="pd_img" id="pd_img" alt="상품" style="width: 250px; height: 250px;" onclick="view_product()">
+                        <a href=<?=$pd_get?>>
+                            <img src="<?=$pd_imgpath?>" name="pd_img" id="pd_img" alt="상품" style="width: 250px; height: 250px;">
+                        </a>
                     </div>
-                    <div class="pd_title" onclick="view_product()"><?=$pd_name?></div>
+                    <div class="pd_title" >
+                        <a href=<?=$pd_get?>><?=$pd_name?></a>
+                    </div>
                     <div class="pd_price"><?=number_format($pd_price)."원"?></div>
                     <div class="pd_choice">
                         <?php
@@ -106,10 +111,13 @@
                         <?php
                             } else { //관리자면 변경 삭제 표시
                         ?>
-                        <span onclick = "update_product()">변경하기</span>
-                        <span onclick = "delete_product()">삭제하기</span>
+                        <!-- <span onclick = "update_product()">변경하기</span> -->
+
+                        <span onclick = "delete_product('<?=$pd_id?>','<?=$pd_imgpath?>')">삭제하기</span> 
+
+                        <!-- 얘네도 자바메소드 지우고 눌렀을떄 php에서 pd_id전달해줘야함 -->
                         <?php
-                            } 
+                            }
                         ?>
                     </div>
                 </li>
@@ -140,21 +148,45 @@
     </div>
 
     <script>
-        function view_product(){
-            console.log("상품클릭");
-            location.href='http://192.168.80.130/front/html/shop_product_show.html?pd_id='+'뭐시기';
-        }
-
         function add_product(){
             console.log("상품생성");
+
+            let newForm = document.createElement('form');
+            newForm.name = 'newForm';
+            newForm.method = 'post';
+            newForm.action = 'http://192.168.80.130/front/html/shop_product_add.php';
+
+            let input_data = document.createElement('input');
+
+            input_data.setAttribute("type", "text");
+            input_data.setAttribute("name",'cm_id');
+            input_data.setAttribute("value","");
+
+            newForm.appendChild(input_data);
+            document.body.appendChild(newForm);
+            newForm.submit();
+            
         }
 
         function update_product(){
             console.log("상품업데이트");
         }
 
-        function delete_product(){
+        function delete_product(delete_id, img_path){
             console.log("상품삭제");
+            if (confirm("정말 삭제하시겠습니까?") == true){
+                //삭제
+                fetch('http://192.168.80.130/back/php/shop_delete_product.php?pd_id='+delete_id+'&img_path='+img_path)
+                .then((res) => res.text())
+                .then((data) => {
+                    console.log(data);
+                    alert("삭제가 완료되었습니다.")
+                    location.href='http://192.168.80.130/front/html/shop_rb_list.php';
+                    //카테고리 분기점
+                });
+            } else{
+                return;
+            }
         }
     </script>
     
