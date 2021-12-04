@@ -226,14 +226,18 @@
         
         function delete_item(i) {
             //눌렀을때 해당 아이템 삭제 (쿠키에서)
-            console.log("쿠키에서 삭제하기")
-            fetch('http://192.168.80.130/back/php/delete_cookie.php?row='+i)
-            .then((res) => res.text())
-            .then((data) => {
-                console.log(data);
-                alert("아이템삭제")
-                location.href='http://192.168.80.130/front/html/shop_basket.php';
-            });
+            if (confirm("장바구니에서 삭제하시겠습니까?") == true){
+                console.log("쿠키에서 삭제하기")
+                fetch('http://192.168.80.130/back/php/delete_cookie.php?row='+i)
+                .then((res) => res.text())
+                .then((data) => {
+                    console.log(data);
+                    alert("아이템삭제")
+                    location.href='http://192.168.80.130/front/html/shop_basket.php';
+                });
+            } else {
+                return;
+            }
         }
 
         function buy_product() {
