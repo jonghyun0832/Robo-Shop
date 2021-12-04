@@ -1,0 +1,235 @@
+*{
+    text-decoration: none; /*아래밑줄 제거*/
+    color: black; /*글자색 검은색 고정*/
+    list-style: none; /*리스트 앞에 찍히는 점없애기*/
+    margin: 0px;
+    padding:0px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+.top_item{
+    height: 48px;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 100px;
+    align-items: center;
+}
+
+.top_item>li{
+    margin-left: 36px;
+}
+
+
+.header{
+    display: flex;
+    width: 1280px;
+    margin: auto;
+    /* background:red ; */
+    height: 64px;
+    position: sticky;
+    top: 0px;
+    left: 0px;
+}
+
+.main_logo{
+    width: 200px;
+    /* background-color: skyblue; */
+    line-height: 64px;
+    text-align: center;
+}
+
+
+.searchArea{
+    /* background-color: aqua; */
+    width:480px;
+    height: 40px;
+    margin-top: 12px;
+}
+.searchArea>form>input{
+    border: 1.5px solid black;
+    width: 350px;
+    height: 40px;
+    font-size: 15px;
+    margin-left: 20px;
+    padding-left: 10px;
+}
+
+.searchArea>form>span{
+    /* background: chartreuse; */
+    text-align: center;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #fff;
+    
+}
+
+.nav{
+    display: flex;
+    width: calc(1280px - 200px - 480px);
+    /* background-color: blueviolet; */
+    line-height: 64px;
+}
+
+.nav > li{
+    margin-left: 64px;
+}
+
+.main_top{
+    background-image: url(../../img/rb_list_bg.jpg);
+    background-size: 100%;
+    margin-top: 5%;
+    width: 100%;
+    height: 20%;
+    
+}
+
+.main_top>p{
+    margin-left: 15%;
+}
+
+.title{
+    font-size: 3em;
+    line-height: 1.5em;
+    
+}
+
+table {
+    border-collapse: collapse;
+
+}
+
+caption {
+    display: none;
+}
+
+.basket_list_wrap{
+    padding: 10% 10% 5% 10%;
+    
+}
+
+.basket_list{
+    width: 100%;
+    border-top: 2px solid black;
+}
+
+.basket_list thead tr{
+    border-bottom: 1px solid #ccc;
+}
+
+.basket_list tbody tr{
+    border-bottom: 1px solid #ccc;
+}
+
+.basket_list th,
+.basket_list td {
+    /* border: 1px solid #999; */
+    padding: 10px;
+    font-size: 14px;
+}
+
+.basket_list .first{
+    width: 20%;
+}
+
+.basket_list .second{
+    text-align: left;
+    width: 40%;
+    padding-left: 10%;
+}
+
+.basket_list .third{
+    width: 20%;
+}
+
+.basket_list .fourth{
+    width: 15%;
+}
+
+.basket_list .fifth{
+    width:2%;
+}
+
+.basket_list td{
+    text-align: center;
+}
+
+.basket_list .tit{
+    text-align: left;
+    padding-left: 5%;
+    font-size: 1.25rem;
+}
+
+.basket_list .price{
+    font-size: 1.25rem;
+}
+
+.basket_list .count{
+    font-size: 1.25rem;
+}
+
+.basket_list .tit :hover{
+    text-decoration: underline;
+}
+
+.item_count input{
+    font-size: 1.1rem;
+    margin-left: 10px;
+}
+
+.item_count input:nth-child(2){
+    text-align: right;
+    width: 50px;
+}
+
+.plus{
+    padding:0px 5px 0px 5px;
+    cursor: pointer;
+}
+
+.minus{
+    padding:0px 8px 0px 8px;
+    cursor: pointer;
+}
+
+.cancel {
+    display: flex;
+    cursor: pointer;
+}
+
+.empty{
+    height: 50px;
+}
+
+.total_order{
+    background-color: #ccc;
+}
+
+.total_order td {
+    font-size: 1.25rem;
+}
+
+.total_price input{
+    color: #EA0000;
+    font-size: 1.5rem;
+    text-align: right;
+    background-color: #ccc;
+    border: none;
+    width: 80%;
+    margin-right: 5px;
+}
+
+.border_bottom {
+    text-align: center;
+    margin-bottom: 10%;
+}
+
+.border_bottom span{
+    font-size: 1.75rem;
+    border: 1px solid #0073E9;
+    border-radius: 10px;
+    background-color: #0073E9;
+    color: white;
+    padding: 1.5% 3% 1.5% 3%;
+    cursor: pointer;
+}

@@ -9,6 +9,7 @@
     }
     //로그인 세션으로 관리자면 버튼보이게 해줘야함
 
+    //상품테이블 카테고리2 가져오기
     $sql = "SELECT * FROM pd_info_table I 
     INNER JOIN pd_category_table C ON I.cg_id = C.cg_id 
     WHERE I.cg_id = 2
@@ -32,6 +33,7 @@
 </head>
 <body>
     <div class="wrap">
+        <!-- 여기부터 -->
         <div class = intro_top>
             <?php
                 if ($is_login == FALSE){ //로그인 아직 안했음
@@ -72,6 +74,7 @@
                 </form>
             </div>
         </div>
+        <!-- 여기까지 헤더 부분임 -->
         <div class="main_top">
             <p class="title">기타 용품</p>
             <p class="subtitle">제작용 기타 용품입니다. </p>

@@ -29,7 +29,7 @@
             <ul class="top_item">
                 <li><a href="shop_login.html">로그인</a></li>
                 <li><a href="shop_create_account.html">회원가입</a></li>
-                <li><a href="">장바구니</a></li>
+                <li><a href="shop_basket.php">장바구니</a></li>
             </ul>
             <?php
                 }else { //로그인 완료
@@ -37,7 +37,7 @@
             <ul class="top_item">
                 <li><?php echo $_SESSION['user_name']?>님 안녕하세요</li>
                 <li><a href="../../back/php/shop_logout.php">로그아웃</a></li>
-                <li><a href="">장바구니</a></li>
+                <li><a href="shop_basket.php">장바구니</a></li>
             </ul>
             <?php
                 }

@@ -40,7 +40,7 @@
             <ul class="top_item">
                 <li><a href="shop_login.html">로그인</a></li>
                 <li><a href="shop_create_account.html">회원가입</a></li>
-                <li><a href="">장바구니</a></li>
+                <li><a href="shop_basket.php">장바구니</a></li>
             </ul>
             <?php
                 }else { //로그인 완료
@@ -48,7 +48,7 @@
             <ul class="top_item">
                 <li><?php echo $_SESSION['user_name']?>님 안녕하세요</li>
                 <li><a href="../../back/php/shop_logout.php">로그아웃</a></li>
-                <li><a href="">장바구니</a></li>
+                <li><a href="shop_basket.php">장바구니</a></li>
             </ul>
             <?php
                 }
@@ -106,7 +106,7 @@
                         <?php
                             if($login_user_id != "admin123"){ //관리자아니면
                         ?>
-                        <span>장바구니</span>
+                        <span onclick="add_basket('<?=$is_login?>','<?=$pd_id?>')">장바구니 담기</span>
                         <span>즉시구매</span>
                         <?php
                             } else { //관리자면 변경 삭제 표시
@@ -168,10 +168,6 @@
             
         }
 
-        function update_product(){
-            console.log("상품업데이트");
-        }
-
         function delete_product(delete_id, img_path){
             console.log("상품삭제");
             if (confirm("정말 삭제하시겠습니까?") == true){
@@ -186,6 +182,22 @@
                 });
             } else{
                 return;
+            }
+        }
+
+        function add_basket(is_login, pd_id) {
+            console.log("장바구니 담기")
+            if (is_login == false){
+                alert("로그인이 필요합니다.")
+                location.href='http://192.168.80.130/front/html/shop_login.html';
+            } else{
+                //location.href='http://192.168.80.130/back/php/cookie.php?pd_id='+pd_id;
+                fetch('http://192.168.80.130/back/php/cookie.php?pd_id='+pd_id)
+                .then((res) => res.text())
+                .then((data) => {
+                    console.log(data);
+                    alert("상품을 장바구니에 담았습니다.")
+                });
             }
         }
     </script>
