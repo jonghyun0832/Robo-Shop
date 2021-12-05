@@ -245,6 +245,7 @@
 
 
             console.log("결제하기")
+            //결제 영수증 내역
             let rp_name;
             if (pd_length == 1){
                 rp_name = "<?=$pd_name?>";

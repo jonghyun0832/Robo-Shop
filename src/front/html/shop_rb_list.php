@@ -32,6 +32,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 </head>
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
 <body>
     <div class="wrap">
         <?php
@@ -71,7 +72,7 @@
                             if($login_user_id != "admin123"){ //관리자아니면
                         ?>
                         <span onclick="add_basket('<?=$is_login?>','<?=$pd_id?>')">장바구니 담기</span>
-                        <span>즉시구매</span>
+                        <span onclick="buy_now('<?=$is_login?>','<?=$pd_id?>','<?=$pd_name?>','<?=$pd_price?>')">즉시구매</span>
                         <?php
                             } else { //관리자면 변경 삭제 표시
                         ?>
@@ -110,7 +111,7 @@
         </div>
     
     </div>
-
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <script>
         function add_product(){
             console.log("상품생성");
@@ -160,7 +161,47 @@
                 .then((res) => res.text())
                 .then((data) => {
                     console.log(data);
-                    alert("상품을 장바구니에 담았습니다.")
+                    switch(data){
+                        case 'false' : //중복일떄
+                            alert("이미 장바구니에 담겨있습니다.");
+                            break;
+                        default:
+                            alert("상품을 장바구니에 담았습니다.");
+                    }
+                });
+            }
+        }
+
+        function buy_now(is_login, pd_id, pd_name, pd_price) {
+            if (is_login == false){
+                alert("로그인이 필요합니다.")
+                location.href='http://192.168.80.130/front/html/shop_login.html';
+            } else { //바로 결제 프로세스
+                var IMP = window.IMP; 
+                IMP.init('imp22891383'); 
+                IMP.request_pay({
+                    pg : "kakaopay", 
+                    pay_method : 'card',
+                    merchant_uid : 'merchant_' + new Date().getTime(),
+                    name : pd_name,
+                    amount : pd_price,
+                    buyer_email : 'sjh_0832@naver.com',
+                    buyer_name : '서종현',
+                    buyer_tel : '01079160052',
+                    buyer_addr : '경기도 군포시 수리산로40',
+                    buyer_postcode : '15823',
+                    m_redirect_url : 'redirect url'
+                }, function(rsp) {
+                    if ( rsp.success ) {
+                        var msg = '결제가 완료되었습니다.';
+                        alert(msg);
+                        location.href='http://192.168.80.130/front/html/shop.php';
+                    } else {
+                        var msg = '결제에 실패하였습니다.';
+                        alert(msg);
+                        rsp.error_msg;
+                    }
+                    
                 });
             }
         }
