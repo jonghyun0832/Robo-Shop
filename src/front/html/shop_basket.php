@@ -17,13 +17,13 @@
         $cookies2 = explode("//",$_COOKIE[$user_id]);
         $cookies = array_reverse($cookies2);
         $iscookie = true;
+
+        
     }   
 
     $total = 0;
 
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -35,52 +35,17 @@
     <title>장바구니</title>
 
     <link rel="stylesheet" type="text/css" href="../css/shop_basket.css">
+    <link rel="stylesheet" type="text/css" href="../css/header.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 </head>
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
 <body>
     <div class="wrap">
-        <div class = intro_top>
-            <?php
-                if ($is_login == FALSE){ //로그인 아직 안했음
-            ?>
-            <ul class="top_item">
-                <li><a href="shop_login.html">로그인</a></li>
-                <li><a href="shop_create_account.html">회원가입</a></li>
-                <li><a href="">장바구니</a></li>
-            </ul>
-            <?php
-                }else { //로그인 완료
-            ?>
-            <ul class="top_item">
-                <li><?php echo $_SESSION['user_id']?>님 안녕하세요</li>
-                <li><a href="../../back/php/shop_logout.php">로그아웃</a></li>
-                <li><a href="">장바구니</a></li>
-            </ul>
-            <?php
-                }
-            ?>
-        </div>
-        <div class="header">
-            <div class="main_logo">
-                <a href="../html/shop.php">    
-                    <img src="../../img/mainLogo.png" width="150px" height="64px">
-                </a>
-            </div>
-            <ul class="nav">
-                <li><a href="shop_rb_list.php">로봇키트</a></li>
-                <li><a href="shop_eq_list.php">기타용품</a></li>
-                <li><a href="shop_customer_question.php">고객센터</a></li>
-            </ul>
-            <div class="searchArea">
-                <!-- 서치.php만들어줘야함 -->
-                <form action="../../back/php/shop_search.php" name = "검색" method = "get">
-                    <input type="search" name = "user_search" id = 'user_search' placeholder="Search">
-                    <span><img src="../../img/search.png" height="25px" onclick="sendSearch()"></span>
-                </form>
-            </div>
-        </div>
+        <?php
+            include "../../front/html/header.php";
+        ?>
         <div class="main_top">
             <p class="title">장바구니</p>
         </div>
@@ -144,7 +109,7 @@
                         </td>
                     </tr>
                     <?php
-                            $total = $total + $pd_price;
+                            $total = $total + $pd_price * $product_info[0];
                             }
                         } else { //쿠키가 없을떄
                     ?>
@@ -183,7 +148,7 @@
         ?>
 
     </div>
-
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <script>
         function count(type,i,price)  {
             // 결과를 표시할 element
@@ -196,15 +161,24 @@
             // 현재 화면에 표시된 값
             let number = parseInt(resultElement.value);
             let tp_value = tp.value;
-
+            //string에서 g써서 replaceall같은 느낌으로 제거 
             tp_value = parseInt(tp_value.replace(/,/g,''));
-            //string에서 g써서 replaceall같은 느낌으로 제거
 
             
+            //php에서 쓰던 쿠키설정을 스크립트에서
+            let cookie = document.cookie.match('(^|;) ?' + <?=$user_id?> + '=([^;]*)(;|$)');
+            let value = cookie[2];
+            let cookie_arr = new Array();
+            cookie_arr = value.split("%2F%2F");
+            cookie_arr = cookie_arr.reverse();
+            console.log(cookie_arr);
+            cookie_tmp = cookie_arr[i].split("%2C");
+
             if(number == 1){    //상품갯수 0 아래로 못가게 만들기
                 if(type === 'plus') {
                     number = number + 1;
                     tp_value = tp_value + parseInt(price);
+                    cookie_tmp[1] = number;
                 }else if(type === 'minus')  {
                     number = number;
                     tp_value = tp_value;
@@ -213,11 +187,27 @@
                 if(type === 'plus') {
                     number = number + 1;
                     tp_value = tp_value + parseInt(price);
+                    cookie_tmp[1] = number;
                 }else if(type === 'minus')  {
                     number = number - 1;
                     tp_value = tp_value - parseInt(price);
+                    cookie_tmp[1] = number;
                 }
             }
+            console.log(cookie_tmp);
+            //쿠키 재설정
+            cookie_tmp = cookie_tmp[0]+"%2C"+cookie_tmp[1];
+            cookie_arr[i] = cookie_tmp;
+            cookie_arr = cookie_arr.reverse();
+            cookie_info = cookie_arr[0];
+            if (cookie_arr.length > 1){
+                for (i=1; i<cookie_arr.length; i=i+1){
+                    cookie_info = cookie_info+"%2F%2F"+cookie_arr[i];
+                }
+            }
+            let date = new Date();
+            date.setTime(date.getTime() + 1*60*60*1000);
+            document.cookie = <?=$user_id?> + '=' + cookie_info + ';expires=' + date.toUTCString() + ';path=/';
             
             // 결과 출력
             resultElement.value = number;
@@ -238,11 +228,58 @@
             } else {
                 return;
             }
-        }
+        }   
 
         function buy_product() {
+            //총 주문금액 가져오기
+            const tp= document.getElementById('total_price');
+            let tp_value = tp.value;
+            tp_value = parseInt(tp_value.replace(/,/g,''));
+
+            //상품명 가져오기
+            let cookie = document.cookie.match('(^|;) ?' + <?=$user_id?> + '=([^;]*)(;|$)');
+            let value = cookie[2];
+            let cookie_arr = new Array();
+            cookie_arr = value.split("%2F%2F");
+            let pd_length = cookie_arr.length;
+
+
             console.log("결제하기")
+            let rp_name;
+            if (pd_length == 1){
+                rp_name = "<?=$pd_name?>";
+            } else {
+                rp_name = "<?=$pd_name?>"+" 외 "+(pd_length-1)+"개 상품";
+            }
             //결제하기 눌렀을떄 결제하기로 이동
+            //pg : "html5_inicis",  : KG이니시스 웹기본
+            //pg : "kakaopay",  : 카카오페이 결제
+            var IMP = window.IMP; 
+            IMP.init('imp22891383'); 
+            IMP.request_pay({
+                pg : "kakaopay", 
+                pay_method : 'card',
+                merchant_uid : 'merchant_' + new Date().getTime(),
+                name : rp_name,
+                amount : tp_value,
+                buyer_email : 'sjh_0832@naver.com',
+                buyer_name : '서종현',
+                buyer_tel : '01079160052',
+                buyer_addr : '경기도 군포시 수리산로40',
+                buyer_postcode : '15823',
+                m_redirect_url : 'redirect url'
+            }, function(rsp) {
+                if ( rsp.success ) {
+                    var msg = '결제가 완료되었습니다.';
+                    alert(msg);
+                    location.href='http://192.168.80.130/front/html/shop.php';
+                } else {
+                    var msg = '결제에 실패하였습니다.';
+                    alert(msg);
+                    rsp.error_msg;
+                }
+                
+            });
         }
     </script>
     

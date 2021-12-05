@@ -4,7 +4,7 @@ $pd_id = $_GET['pd_id'];
 
 $user_id = $_SESSION['user_id'];
 
-$product_amount = 1;
+$product_amount = $_GET['pd_cnt'];
 
 $add_info = $pd_id.",".$product_amount;
 

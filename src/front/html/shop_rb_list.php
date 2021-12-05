@@ -27,52 +27,16 @@
     <title>로봇키트</title>
 
     <link rel="stylesheet" type="text/css" href="../css/shop_rb_list.css">
+    <link rel="stylesheet" type="text/css" href="../css/header.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="wrap">
-        <div class = intro_top>
-            <?php
-                if ($is_login == FALSE){ //로그인 아직 안했음
-            ?>
-            <ul class="top_item">
-                <li><a href="shop_login.html">로그인</a></li>
-                <li><a href="shop_create_account.html">회원가입</a></li>
-                <li><a href="shop_basket.php">장바구니</a></li>
-            </ul>
-            <?php
-                }else { //로그인 완료
-            ?>
-            <ul class="top_item">
-                <li><?php echo $_SESSION['user_name']?>님 안녕하세요</li>
-                <li><a href="../../back/php/shop_logout.php">로그아웃</a></li>
-                <li><a href="shop_basket.php">장바구니</a></li>
-            </ul>
-            <?php
-                }
-            ?>
-        </div>
-        <div class="header">
-            <div class="main_logo">
-                <a href="../html/shop.php">    
-                    <img src="../../img/mainLogo.png" width="150px" height="64px">
-                </a>
-            </div>
-            <ul class="nav">
-                <li><a href="shop_rb_list.php">로봇키트</a></li>
-                <li><a href="shop_eq_list.php">기타용품</a></li>
-                <li><a href="shop_customer_question.php">고객센터</a></li>
-            </ul>
-            <div class="searchArea">
-                <!-- 서치.php만들어줘야함 -->
-                <form action="../../back/php/shop_search.php" name = "검색" method = "get">
-                    <input type="search" name = "user_search" id = 'user_search' placeholder="Search">
-                    <span><img src="../../img/search.png" height="25px" onclick="sendSearch()"></span>
-                </form>
-            </div>
-        </div>
+        <?php
+            include "../../front/html/header.php";
+        ?>
         <div class="main_top">
             <p class="title">로봇키트</p>
             <p class="subtitle">로봇 제작용 재료들입니다.</p>
@@ -190,9 +154,9 @@
             if (is_login == false){
                 alert("로그인이 필요합니다.")
                 location.href='http://192.168.80.130/front/html/shop_login.html';
-            } else{
+            } else{ //쿠키 설정 파일로 상품번호와 상품갯수 1개(고정)해서 보내기
                 //location.href='http://192.168.80.130/back/php/cookie.php?pd_id='+pd_id;
-                fetch('http://192.168.80.130/back/php/cookie.php?pd_id='+pd_id)
+                fetch('http://192.168.80.130/back/php/cookie.php?pd_id='+pd_id+'&pd_cnt='+1)
                 .then((res) => res.text())
                 .then((data) => {
                     console.log(data);
