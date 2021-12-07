@@ -5,55 +5,8 @@
     $sql_order = "SELECT * FROM order_table
     ORDER BY od_id DESC;";
 
-    $result = mysqli_query($conn,$sql_order);
-    $row= mysqli_fetch_array($result);
-
-    $pd_id_str = $row['pd_id_str'];
-    $pd_count_str = $row['pd_count_str'];
-    $user_id = $row['user_id'];
-    $od_cdate = $row['od_cdate']; //생성일
-
-    
-    $pd_id_arr = explode(",",$pd_id_str); //상품id 리스트
-    $pd_count_arr = explode(",",$pd_count_str); //상품별 갯수
-
-    $sql_person = "SELECT * FROM user_table
-    WHERE user_id ='".$user_id."'";
-
-    $result = mysqli_query($conn,$sql_person);
-    $row= mysqli_fetch_array($result);
-
-    $user_name = $row['user_name']; //소비자 이름
-    $user_email = $row['user_email']; //소비자 이메일
-    $user_phone_number = $row['user_phone_number']; //소비자 번호
-    $user_address_post = $row['user_address_post']; //소비자 우편번호
-    $user_address = $row['user_address']; //소비자 주소
-    $user_address_detail = $row['user_address_detail']; //소비자 상세주소
-
-    
-    $pd_name_arr = [];
-    $pd_total_price = 0;
-    for ($i=0; $i<count($pd_id_arr); $i=$i+1){
-        $sql_product = "SELECT pd_name,pd_price FROM pd_info_table
-        WHERE pd_id = '".$pd_id_arr[$i]."'";
-
-        $result = mysqli_query($conn,$sql_product);
-        $row= mysqli_fetch_array($result);
-
-        $product_name = $row['pd_name'];
-        $product_price = $row['pd_price'];
-
-        array_push($pd_name_arr, $product_name);
-        $pd_total_price = $pd_total_price + (int)$product_price*(int)$pd_count_arr[$i];
-    }
-
-    $pd_name_str = $pd_name_arr[0];
-    if (count($pd_name_arr) > 1){
-        for ($i=1; $i<count($pd_name_arr); $i=$i+1){
-            $pd_name_str = $pd_name_str.",<br>".$pd_name_arr[$i];
-        }
-    }
-
+    $result_order = mysqli_query($conn,$sql_order);
+    $exist = mysqli_num_rows($result_order);
 
 ?>
 
@@ -87,7 +40,6 @@
                 <thead>
                     <tr>
                         <th class="first">주문날짜</th>
-                        <th class="second">상품이미지</th>
                         <th class="third">상품명</th>
                         <th class="fourth">가격</th>
                         <th class="fifth">구매자 정보</th>
@@ -95,15 +47,65 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
+                    for ($j=0; $j<$exist; $j=$j+1){
+                        $row= mysqli_fetch_array($result_order);
+                        
+                        //주문 테이블에서 데이터 가져오기
+                        $od_id = $row['od_id']; //주문 id
+                        $pd_id_str = $row['pd_id_str'];
+                        $pd_count_str = $row['pd_count_str'];
+                        $user_id = $row['user_id'];
+                        $od_cdate = $row['od_cdate']; //생성일
+                        $od_boolean = $row['od_boolean']; //처리여부
+
+                        //데이터 쪼개서 배열로만들기
+                        $pd_id_arr = explode(",",$pd_id_str); //상품id 리스트
+                        $pd_count_arr = explode(",",$pd_count_str); //상품별 갯수
+                        //유저 테이블에서 데이터 가져오기
+                        $sql_person = "SELECT * FROM user_table
+                        WHERE user_id ='".$user_id."'";
+
+                        $result = mysqli_query($conn,$sql_person);
+                        $row= mysqli_fetch_array($result);
+
+                        $user_name = $row['user_name']; //소비자 이름
+                        $user_email = $row['user_email']; //소비자 이메일
+                        $user_phone_number = $row['user_phone_number']; //소비자 번호
+                        $user_address_post = $row['user_address_post']; //소비자 우편번호
+                        $user_address = $row['user_address']; //소비자 주소
+                        $user_address_detail = $row['user_address_detail']; //소비자 상세주소
+
+                        //상품 테이블에서 데이터 가져오기
+                        $pd_name_arr = [];
+                        $pd_total_price = 0;
+                        for ($i=0; $i<count($pd_id_arr); $i=$i+1){
+                            $sql_product = "SELECT pd_name,pd_price FROM pd_info_table
+                            WHERE pd_id = '".$pd_id_arr[$i]."'";
+
+                            $result = mysqli_query($conn,$sql_product);
+                            $row= mysqli_fetch_array($result);
+
+                            $product_name = $row['pd_name'];
+                            $product_price = $row['pd_price'];
+
+                            array_push($pd_name_arr, $product_name." : ".$pd_count_arr[$i]);
+                            $pd_total_price = $pd_total_price + (int)$product_price*(int)$pd_count_arr[$i];
+                        }
+
+                        $pd_name_str = $pd_name_arr[0];
+                        if (count($pd_name_arr) > 1){
+                            for ($i=1; $i<count($pd_name_arr); $i=$i+1){
+                                $pd_name_str = $pd_name_str.",<br>".$pd_name_arr[$i];
+                            }
+                        }
+                    ?>
                     <tr>
                         <td class="date"><?=$od_cdate?></td>
-                        <td>
-                            <img src="../../pd_img/20211201083427_run.png" style="width: 250px; height: 200px;" >
-                        </td>
                         <td class="tit">
-                            <a href="#"><?=$pd_name_str?></a>
+                            <?=$pd_name_str?>
                         </td>
-                        <td class="price"><?=$pd_total_price?></td>
+                        <td class="price"><?=number_format($pd_total_price)."원"?></td>
                         <td class="consumer">
                             <div><?=$user_name?></div>
                             <div><?=$user_email?></div>
@@ -112,14 +114,52 @@
                             <div><?=$user_address." ".$user_address_detail?></div>
                         </td>
                         <td class="done">
-                            <span>미처리</span>
+                        
+                            <?php
+                                if($od_boolean == FALSE){
+                            ?>
+                            <span class="process" id="od_complete<?=$j?>" onclick="order_complete(<?=$j?>,<?=$od_id?>)">
+                                미처리
+                            </span>
+                            <?php
+                                } else {
+                            ?>
+                            <span class="finish" id="od_complete<?=$j?>">처리완료</span>
+                            <?php
+                                }
+                            ?>
                         </td>
                     </tr>
-                    
+                    <?php
+                    }
+                    ?>
                     <tr class="empty"></tr>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <script>
+        function order_complete(j,od_id){
+            console.log("처리처리");
+            if (confirm("주문을 완료 처리 하시겠습니까?") == true){
+                fetch('http://192.168.80.130/back/php/order_finish.php?od_id='+od_id)
+                .then((res) => res.text())
+                .then((data) => {
+                    console.log(data);
+                    // alert("처리완료")
+                    // location.href='http://192.168.80.130/front/html/shop_order_check.php';
+                    const btn_done = document.getElementById('od_complete'+j);
+                    btn_done.innerText = "처리완료";
+                    btn_done.style.color = "white";
+                    btn_done.style.border = "none";
+                    btn_done.style.backgroundColor = "green";
+                });
+            } else {
+                return;
+            }
+        }
+    </script>
+
 </body>
 </html>

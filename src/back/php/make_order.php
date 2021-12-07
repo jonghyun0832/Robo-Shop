@@ -15,6 +15,8 @@
     }
     mysqli_close($conn);
 
+    setcookie($user_id,"", time()-60*60,"/");
+
     echo "<script>alert('결제가 완료되었습니다.');
     location.href='http://192.168.80.130//front/html/shop.php'
     </script>";
