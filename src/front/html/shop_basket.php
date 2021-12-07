@@ -8,6 +8,7 @@
         </script>";
     }
     $user_id = $_SESSION['user_id'];
+    $user_name = $_SESSION['user_name'];
 
     $iscookie = false;
 
@@ -146,7 +147,6 @@
         <?php
             }
         ?>
-
     </div>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <script>
@@ -180,7 +180,7 @@
                     tp_value = tp_value + parseInt(price);
                     cookie_tmp[1] = number;
                 }else if(type === 'minus')  {
-                    number = number;
+                    number = 1;
                     tp_value = tp_value;
                 }
             } else {    // 더하기/빼기
@@ -236,12 +236,56 @@
             let tp_value = tp.value;
             tp_value = parseInt(tp_value.replace(/,/g,''));
 
-            //상품명 가져오기
+            //총 가격을 php에 넘기기 위해 쿠키로 만들기
+           
+        
+
+            //상품명 갯수
             let cookie = document.cookie.match('(^|;) ?' + <?=$user_id?> + '=([^;]*)(;|$)');
             let value = cookie[2];
             let cookie_arr = new Array();
             cookie_arr = value.split("%2F%2F");
             let pd_length = cookie_arr.length;
+            
+
+            <?php
+
+                //상품 id들만 골라서 str으로 만들기
+                
+                $pd_id_arr = [];
+                $pd_count_arr = [];
+                $cookies2 = explode("//",$_COOKIE[$user_id]);
+                $cookies = array_reverse($cookies2);
+                for ($i=0; $i<count($cookies); $i=$i+1){
+                    $product_info = explode(",",$cookies[$i]);
+                    array_push($pd_id_arr,$product_info[0]);
+                    array_push($pd_count_arr,$product_info[1]);
+                }
+                $pd_id_str = implode(",",$pd_id_arr);
+                $pd_count_str = implode(",",$pd_count_arr);
+                // $pd_id_str = $pd_id_arr[0];
+                // if (count($pd_id_arr)>1){
+                //     for ($i=1; $i<count($pd_id_arr); $i=$i+1){
+                //         $pd_id_str = $pd_id_str.",".$pd_id_arr[$i];
+                //     }
+                // }
+                // $pd_price_total = $_COOKIE[$user_name];
+            
+                // 주문자 정보 가져오기
+                $sql = "SELECT * FROM user_table
+                WHERE user_id ='".$user_id."'";
+                $result = mysqli_query($conn,$sql);
+                $row= mysqli_fetch_array($result);
+
+                $user_name = $row['user_name']; //고객이름 
+                $user_email = $row['user_email']; //고객
+                $user_phone_number = $row['user_phone_number']; //고객전화번호  
+                $user_address_post = $row['user_address_post']; //고객우편번호
+                $user_address = $row['user_address']; //고객주소
+                $user_address_detail = $row['user_address_detail']; //고객상세주소
+
+                mysqli_close($conn);
+            ?>
 
 
             console.log("결제하기")
@@ -263,19 +307,43 @@
                 merchant_uid : 'merchant_' + new Date().getTime(),
                 name : rp_name,
                 amount : tp_value,
-                buyer_email : 'sjh_0832@naver.com',
-                buyer_name : '서종현',
-                buyer_tel : '01079160052',
-                buyer_addr : '경기도 군포시 수리산로40',
-                buyer_postcode : '15823',
+                buyer_email : '<?=$user_email?>',
+                buyer_name : '<?=$user_name?>',
+                buyer_tel : '<?=$user_phone_number?>',
+                buyer_addr : '<?=$user_address." ".$user_address_detail?>',
+                buyer_postcode : '<?=$user_address_post?>',
                 m_redirect_url : 'redirect url'
             }, function(rsp) {
                 if ( rsp.success ) {
-                    var msg = '결제가 완료되었습니다.';
-                    alert(msg);
-                    location.href='http://192.168.80.130/front/html/shop.php';
+
+                    //form객체 만들어서 post로 데이터전달
+                    //데이터는 상품id, 유저id, 상품갯수
+                    var userData = {
+                        'user_id' : '<?=$user_id?>',
+                        'pd_id_str' : '<?=$pd_id_str?>',
+                        'pd_count_str' : '<?=$pd_count_str?>'
+                    };
+
+                    var newForm = document.createElement('form');
+                    newForm.name = 'newForm';
+                    newForm.method = 'post';
+                    newForm.action = 'http://192.168.80.130/back/php/make_order.php';
+                    
+                    for (var key in userData){
+                    var input_data = document.createElement('input');
+                    
+                    input_data.setAttribute("type", "text");
+                    input_data.setAttribute("name",key);
+                    input_data.setAttribute("value",userData[key]);
+
+                    newForm.appendChild(input_data);
+                    }
+                    document.body.appendChild(newForm);
+
+                    newForm.submit();
+
                 } else {
-                    var msg = '결제에 실패하였습니다.';
+                    var msg = '다시 시도해주세요.';
                     alert(msg);
                     rsp.error_msg;
                 }

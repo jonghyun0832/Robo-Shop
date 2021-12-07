@@ -14,7 +14,17 @@
     <ul class="top_item">
         <li><?php echo $_SESSION['user_name']?>님 안녕하세요</li>
         <li><a href="../../back/php/shop_logout.php">로그아웃</a></li>
+        <?php
+            if($_SESSION['user_id'] == 'admin123'){
+        ?>   
+        <li><a href="shop_order_check.php">주문확인</a></li>
+        <?php
+            } else {
+        ?>
         <li><a href="shop_basket.php">장바구니</a></li>
+        <?php
+            }
+        ?>
     </ul>
     <?php
         }
