@@ -154,6 +154,7 @@
                     btn_done.style.color = "white";
                     btn_done.style.border = "none";
                     btn_done.style.backgroundColor = "green";
+                    window.location.reload();
                 });
             } else {
                 return;

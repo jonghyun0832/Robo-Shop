@@ -166,7 +166,7 @@
 
             
             //php에서 쓰던 쿠키설정을 스크립트에서
-            let cookie = document.cookie.match('(^|;) ?' + <?=$user_id?> + '=([^;]*)(;|$)');
+            let cookie = document.cookie.match('(^|;) ?' + '<?=$user_id?>' + '=([^;]*)(;|$)');
             let value = cookie[2];
             let cookie_arr = new Array();
             cookie_arr = value.split("%2F%2F");
@@ -207,11 +207,13 @@
             }
             let date = new Date();
             date.setTime(date.getTime() + 1*60*60*1000);
-            document.cookie = <?=$user_id?> + '=' + cookie_info + ';expires=' + date.toUTCString() + ';path=/';
+            document.cookie = '<?=$user_id?>' + '=' + cookie_info + ';expires=' + date.toUTCString() + ';path=/';
             
             // 결과 출력
             resultElement.value = number;
             tp.value = tp_value.toLocaleString('ko-KR');
+            //페이지 리로드 - 쿠키갱신용
+            window.location.reload();
         }
         
         function delete_item(i) {
@@ -241,11 +243,12 @@
         
 
             //상품명 갯수
-            let cookie = document.cookie.match('(^|;) ?' + <?=$user_id?> + '=([^;]*)(;|$)');
+            let cookie = document.cookie.match('(^|;) ?' + '<?=$user_id?>' + '=([^;]*)(;|$)');
             let value = cookie[2];
             let cookie_arr = new Array();
             cookie_arr = value.split("%2F%2F");
             let pd_length = cookie_arr.length;
+            
             
 
             <?php
@@ -263,13 +266,7 @@
                 }
                 $pd_id_str = implode(",",$pd_id_arr);
                 $pd_count_str = implode(",",$pd_count_arr);
-                // $pd_id_str = $pd_id_arr[0];
-                // if (count($pd_id_arr)>1){
-                //     for ($i=1; $i<count($pd_id_arr); $i=$i+1){
-                //         $pd_id_str = $pd_id_str.",".$pd_id_arr[$i];
-                //     }
-                // }
-                // $pd_price_total = $_COOKIE[$user_name];
+                
             
                 // 주문자 정보 가져오기
                 $sql = "SELECT * FROM user_table

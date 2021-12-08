@@ -33,7 +33,7 @@
 <div class="header">
     <div class="main_logo">
         <a href="../html/shop.php">    
-            <img src="../../img/mainLogo.png" width="150px" height="64px">
+            <img src="../../img/ROBO.png" width="150px" height="64px">
         </a>
     </div>
     <ul class="nav">

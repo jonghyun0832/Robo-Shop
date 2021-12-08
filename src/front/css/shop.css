@@ -14,34 +14,84 @@
 }
 
 .content_advertise{
-    /* background-color: rgb(248, 196, 118); */
-    height: 400px;
+    margin-top: 5%;
+    background-color: rgb(248, 209, 151);
+    height: 100%;
 }
 
 .content_item_new{
+    margin-top: 8%;
     background-color: #ffffff;
-    height: 250px;
+    height: 300px;
     display: flex;
     justify-content: center;
+    padding-bottom: 10%;
 }
 
 .card_item1{
-    /* background-color: brown; */
-    height: 100%;
+    height: auto;
     width: 80%;
+    text-align: center;
+    font-size: 1.5rem;
 }
 
-.content_item_recommand{
-    background-color: #efefef;
-    height: 250px;
+.new_item_wrap{
+
+    margin-top: 3%;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.new_item_list_wrap{
+    height: auto;
+    text-align: start;
+}
+
+.new_item_list{
+    display: inline-block;
+    margin: 10px 20px;
+    text-align: center;
+    border: 2px solid black;
+    padding: 10px;
+}
+
+
+
+
+.new_item_name a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    color: #026AC1;;
+    text-align: center;
+}
+
+.new_item_price{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #F26531;
+    text-align: center;
+}
+
+/* .content_item_recommand{
+    margin-top: 150px;
+    background-color: #efefef;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 150px;
 }
 
 .card_item2{
-    /* background-color: cadetblue; */
-    height: 100%;
+
+    padding-top: 1%;
+    height: auto;
     width: 80%;
+    text-align: center;
+    font-size: 1.5rem;
 }
 
 .content_item_best{
@@ -52,10 +102,33 @@
 }
 
 .card_item3{
-    /* background-color: cornflowerblue; */
+
     height: 100%;
     width: 80%;
+} */
+
+.sider-title {
+    padding-top: 2%;
 }
+
+  .post-slider .post-wrapper{
+    padding-top: 3%;
+    width:80%;
+    height:600px;
+    margin:0px auto;
+  }
+  .post-slider .post-wrapper .post{
+    width:400px;
+    height:550px;
+    display:inline-block;
+    cursor: pointer;
+  }
+
+  .post img {
+    object-fit: fill; 
+    width: 100%; 
+    height: 500px;
+  }
 
 
 

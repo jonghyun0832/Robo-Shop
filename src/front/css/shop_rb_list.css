@@ -45,7 +45,6 @@ caption {
 
 .product_list {
     height: auto;
-    
     text-align: start;
 }
 
@@ -67,7 +66,7 @@ caption {
 
 .product_list .pd_title a {
     padding-top: 10px;
-    color: #026AC1;
+    color: #026AC1; 
     cursor: pointer;
 }
 
