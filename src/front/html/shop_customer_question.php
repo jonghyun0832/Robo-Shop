@@ -6,6 +6,13 @@
     //sql 내부 데이터 개수 파악
     include "../../back/php/connect_mysql.php";
 
+    // 현재 페이지 번호 받아오기
+    if(isset($_GET["page"])){
+        $page = $_GET["page"]; // 하단에서 다른 페이지 클릭하면 해당 페이지 값 가져와서 보여줌
+    } else {
+        $page = 1; // 게시판 처음 들어가면 1페이지로 시작
+    }
+
     $sql = "SELECT * FROM community_table C INNER JOIN user_table U ON C.user_id = U.user_id ORDER BY cm_id DESC";
     $result = mysqli_query($conn,$sql);
     $exist_num = mysqli_num_rows($result);
@@ -30,8 +37,8 @@
             include "../../front/html/header.php";
         ?>
         <div class="main_top">
-            <p class="title">고객센터</p>
-            <p class="subtitle">상품에 관련된 문의를 자유롭게 해주세요. </p>
+            <p class="title">공지사항</p>
+            <p class="subtitle">공지사항들과 다양한 소식이 있습니다. </p>
         </div>
         <div class="board_list_wrap">
             <table class ="board_list">
@@ -47,9 +54,33 @@
                 </thead>
                 <tbody>
                 <?php
-                    for ($i=0; $i<$exist_num; $i=$i+1){
-                        $row= mysqli_fetch_array($result);
-                        
+
+                    $list = 5; //보여줄 게시물 개수
+                    $block_cnt = 4; //블록페이지 개수
+                    $block_num = ceil($page/$block_cnt);
+                    $block_start = (($block_num-1)*$block_cnt)+1;
+                    $block_end = $block_start + $block_cnt - 1;
+
+                    $total_page = ceil($exist_num/$list);
+                    if($block_end > $total_page){
+                        $block_end = $total_page;
+                    }
+                    $total_block = ceil($total_page/$block_cnt);
+                    $page_start = ($page-1)*$list;
+
+                    $sql_pageRecord = "SELECT * FROM community_table C 
+                    INNER JOIN user_table U ON C.user_id = U.user_id 
+                    ORDER BY cm_id DESC LIMIT $page_start,$list";
+                    $result_pageRecord = mysqli_query($conn,$sql_pageRecord);
+                    
+                    //마지막 페이지 데이터 개수 맞춰주기
+                    if (mysqli_num_rows($result_pageRecord) < $list){
+                        $list = mysqli_num_rows($result_pageRecord);
+                    }
+
+                    for ($i=0; $i<$list; $i=$i+1){
+                        //$row= mysqli_fetch_array($result);
+                        $row = mysqli_fetch_array($result_pageRecord);
                         $cm_id = $row['cm_id'];
                         // $user_id = $row['user_id'];
                         $user_name = $row['user_name'];
@@ -77,13 +108,43 @@
                 <span onclick = "create_content()">글쓰기</span>
             </div>
             <div class="paging">
-                <a href="#" class="btn">처음</a>
-                <a href="#" class="btn">이전</a>
-                <a href="#" class="num">1</a>
-                <a href="#" class="num">2</a>
-                <a href="#" class="num">3</a>
-                <a href="#" class="btn">다음</a>
-                <a href="#" class="btn">마지막</a>
+                <?php
+                    //처음 만들기
+                    if($page <= 1){
+                        //빈거
+                    } else{
+                        echo "<a href='shop_customer_question.php?page=1'>처음</a>";
+                    }
+                    //이전 만들기
+                    if($page <= 1){
+                        //빈거
+                    } else {
+                        $pre = $page - 1;
+                        echo "<a href='shop_customer_question.php?page=$pre'>이전</a>";
+                    }
+
+                    for ($i = $block_start; $i <= $block_end; $i++){
+                        if($page == $i){
+                            echo "<a class='num on'>$i</a>";
+                        } else {
+                            echo "<a href='shop_customer_question.php?page=$i' class='num'>$i</a>";
+                        }
+                    }
+
+                    if($page >= $total_page){
+                        //빈거
+                    } else {
+                        $next = $page + 1;
+                        echo "<a href='shop_customer_question.php?page=$next'>다음</a>";
+                    }
+
+                    if($page >= $total_page) {
+                        //빈거
+                    } else {
+                        echo "<a href='shop_customer_question.php?page=$total_page'>마지막</a>";
+                    }
+                ?>
+
             </div>
         </div>
         
@@ -105,6 +166,7 @@
             input_data.setAttribute("value","");
 
             newForm.appendChild(input_data);
+
             document.body.appendChild(newForm);
             newForm.submit();
         }

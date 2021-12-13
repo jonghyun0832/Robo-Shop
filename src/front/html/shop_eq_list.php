@@ -171,7 +171,7 @@
             if (is_login == false){
                 alert("로그인이 필요합니다.")
                 location.href='http://192.168.80.130/front/html/shop_login.html';
-            } else { //바로 결제 프로세스
+            } else { //바로 결제 프로세스 여기도 수정해줘야한다.
                 var IMP = window.IMP; 
                 IMP.init('imp22891383'); 
                 IMP.request_pay({
@@ -184,8 +184,7 @@
                     buyer_name : '서종현',
                     buyer_tel : '01079160052',
                     buyer_addr : '경기도 군포시 수리산로40',
-                    buyer_postcode : '15823',
-                    m_redirect_url : 'redirect url'
+                    buyer_postcode : '15823'
                 }, function(rsp) {
                     if ( rsp.success ) {
                         var msg = '결제가 완료되었습니다.';

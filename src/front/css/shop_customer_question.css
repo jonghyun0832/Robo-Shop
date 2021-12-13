@@ -144,8 +144,14 @@ a {
 }
 
 .board_list_wrap .paging a.num{
-    border:1px solid #000;
+    border:1px solid green;
     font-weight: 600; 
+    color: green;
+}
+
+.board_list_wrap .paging a.num.on{
+    background-color: green;
+    color: #fff;
 }
 
 /* .main_wrap{

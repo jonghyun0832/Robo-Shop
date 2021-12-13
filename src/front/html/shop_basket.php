@@ -308,8 +308,7 @@
                 buyer_name : '<?=$user_name?>',
                 buyer_tel : '<?=$user_phone_number?>',
                 buyer_addr : '<?=$user_address." ".$user_address_detail?>',
-                buyer_postcode : '<?=$user_address_post?>',
-                m_redirect_url : 'redirect url'
+                buyer_postcode : '<?=$user_address_post?>'
             }, function(rsp) {
                 if ( rsp.success ) {
 
