@@ -41,6 +41,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 </head>
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
 <body>
     <div class="wrap">
         <?php
@@ -77,7 +78,7 @@
                     </span>
                 </div>
                 <div class="select_wrap">
-                    <span onclick ="buy()">바로 구매</span>
+                    <span onclick ="buy_now('<?=$is_login?>','<?=$pd_id?>','<?=$pd_name?>','<?=$pd_price?>')">바로 구매</span>
                     <span onclick ="basket('<?=$is_login?>','<?=$pd_id?>')">장바구니 담기</span>
                 </div>
             </div>
@@ -95,9 +96,9 @@
         </div>
 
     </div>
-    
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <script>
-        //스크립트 분리필요
+        
         function count(type)  {
             // 결과를 표시할 element
             console.log(type)
@@ -126,8 +127,63 @@
             resultElement.value = number;
         }
 
-        function buy() {
-            console.log("바로 구매")
+        function buy_now(is_login, pd_id, pd_name, pd_price) {
+            const resultCount = document.getElementById('item_final_count').value;
+            if (is_login == false){
+                alert("로그인이 필요합니다.")
+                location.href='http://192.168.80.130/front/html/shop_login.html';
+            } else { //바로 결제 프로세스 여기도 수정해줘야한다.
+                var IMP = window.IMP; 
+                IMP.init('imp22891383'); 
+                IMP.request_pay({
+                    pg : "kakaopay", 
+                    pay_method : 'card',
+                    merchant_uid : 'merchant_' + new Date().getTime(),
+                    name : pd_name,
+                    amount : parseInt(pd_price) * parseInt(resultCount),
+                    buyer_email : 'sjh_0832@naver.com',
+                    buyer_name : '서종현',
+                    buyer_tel : '01079160052',
+                    buyer_addr : '경기도 군포시 수리산로40',
+                    buyer_postcode : '15823'
+                }, function(rsp) {
+                    if ( rsp.success ) {
+
+                    var userData = {
+                        'user_id' : '<?=$login_user_id?>',
+                        'pd_id_str' : pd_id,
+                        'pd_count_str' : resultCount
+                    };
+
+                    var newForm = document.createElement('form');
+                    newForm.name = 'newForm';
+                    newForm.method = 'post';
+                    newForm.action = 'http://192.168.80.130/back/php/make_order.php';
+                    
+                    for (var key in userData){
+                    var input_data = document.createElement('input');
+                    
+                    input_data.setAttribute("type", "text");
+                    input_data.setAttribute("name",key);
+                    input_data.setAttribute("value",userData[key]);
+
+                    newForm.appendChild(input_data);
+                    }
+                    document.body.appendChild(newForm);
+
+                    newForm.submit();
+
+
+
+                        
+                    } else {
+                        var msg = '결제에 실패하였습니다.';
+                        alert(msg);
+                        rsp.error_msg;
+                    }
+                    
+                });
+            }
         }
 
         function basket(is_login,pd_id) {

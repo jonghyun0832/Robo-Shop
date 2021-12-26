@@ -69,24 +69,6 @@
                     <a href=<?=$pd_get?>><?=$pd_name?></a>
                 </div>
                 <div class="pd_price"><?=number_format($pd_price)."원"?></div>
-                <div class="pd_choice">
-                    <?php
-                        if($login_user_id != "admin123"){ //관리자아니면
-                    ?>
-                    <span onclick="add_basket('<?=$is_login?>','<?=$pd_id?>')">장바구니 담기</span>
-                    <span onclick="buy_now('<?=$is_login?>','<?=$pd_id?>','<?=$pd_name?>','<?=$pd_price?>')">즉시구매</span>
-                    <?php
-                        } else { //관리자면 변경 삭제 표시
-                    ?>
-                    <!-- <span onclick = "update_product()">변경하기</span> -->
-
-                    <span onclick = "delete_product('<?=$pd_id?>','<?=$pd_imgpath?>')">삭제하기</span> 
-
-                    <!-- 얘네도 자바메소드 지우고 눌렀을떄 php에서 pd_id전달해줘야함 -->
-                    <?php
-                        }
-                    ?>
-                </div>
             </li>
             <?php
                 }
