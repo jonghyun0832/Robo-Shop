@@ -55,11 +55,13 @@
                 <tbody>
                 <?php
 
-                    $list = 5; //보여줄 게시물 개수
+                    $list = 3; //보여줄 게시물 개수
                     $block_cnt = 4; //블록페이지 개수
                     $block_num = ceil($page/$block_cnt);
                     $block_start = (($block_num-1)*$block_cnt)+1;
                     $block_end = $block_start + $block_cnt - 1;
+
+                    $current = ($page-1) * $list;
 
                     $total_page = ceil($exist_num/$list);
                     if($block_end > $total_page){
@@ -68,9 +70,23 @@
                     $total_block = ceil($total_page/$block_cnt);
                     $page_start = ($page-1)*$list;
 
+
+                    // $sql_cursor = "SELECT * FROM
+                    // (
+                    // SELECT *, @ROWNUM:=@ROWNUM+1 AS rowNum
+                    // FROM community_table C
+                    // , (SELECT @ROWNUM:=0) AS R
+                    // ORDER BY rowNum DESC, cm_id
+                    // )C
+                    // WHERE rowNum < $exist_num - $current
+                    // LIMIT $list";
+                    // $result_pageRecord = mysqli_query($conn,$sql_cursor);
+                    //inner조인이안됨 제발 
+
                     $sql_pageRecord = "SELECT * FROM community_table C 
-                    INNER JOIN user_table U ON C.user_id = U.user_id 
-                    ORDER BY cm_id DESC LIMIT $page_start,$list";
+                    INNER JOIN user_table U ON C.user_id = U.user_id
+                    ORDER BY cm_id DESC 
+                    LIMIT $page_start,$list";
                     $result_pageRecord = mysqli_query($conn,$sql_pageRecord);
                     
                     //마지막 페이지 데이터 개수 맞춰주기
@@ -105,7 +121,13 @@
             </table>
             <div class = "between">
                 <!-- <a href="shop_customer_question_write.php" onclick = "create_content()">글쓰기</a> -->
+                <?php
+                    if($is_admin == 1){
+                ?>
                 <span onclick = "create_content()">글쓰기</span>
+                <?php
+                    }
+                ?>
             </div>
             <div class="paging">
                 <?php

@@ -39,11 +39,11 @@
     <ul class="nav">
         <li><a href="shop_rb_list.php">로봇키트</a></li>
         <li><a href="shop_eq_list.php">기타용품</a></li>
-        <li><a href="shop_customer_question.php">고객센터</a></li>
+        <li><a href="shop_customer_question.php">공지사항</a></li>
     </ul>
     <div class="searchArea">
         <!-- 서치.php만들어줘야함 -->
-        <form action="../../back/php/shop_search.php" name = "검색" method = "get">
+        <form action="../../front/html/shop_search.php" name = "검색" method = "get">
             <input type="search" name = "user_search" id = 'user_search' placeholder="Search">
             <span><img src="../../img/search.png" height="25px" onclick="sendSearch()"></span>
         </form>

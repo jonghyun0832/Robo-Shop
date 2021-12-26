@@ -6,7 +6,7 @@
 
     include "connect_mysql.php";
 
-    $sql = "SELECT user_id, user_pw, user_name FROM user_table where user_id='".$id_val."'";
+    $sql = "SELECT user_id, user_pw, user_name, is_admin FROM user_table where user_id='".$id_val."'";
     $result = mysqli_query($conn,$sql);
     $exist = mysqli_num_rows($result);
 
@@ -16,6 +16,7 @@
             $_SESSION['is_login'] = TRUE;
             $_SESSION['user_id'] = $row[0];
             $_SESSION['user_name'] = $row[2];
+            $_SESSION['is_admin']=$row[3];
             echo "<script>alert('비밀번호맞음');
             location.href='http://192.168.80.130//front/html/shop.php'
             </script>";

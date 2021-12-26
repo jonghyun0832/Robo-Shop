@@ -45,9 +45,15 @@
                 <div class="post-slider">
                     <h1 class="sider-title">Product List</h1>
                     <div class="post-wrapper">
-                        <div class="post"><img src="../../img/capture1.png"></div>
-                        <div class="post"><img src="../../img/capture2.png"></div>
-                        <div class="post"><img src="../../img/capture0.jpg"></div>
+                        <div class="post">
+                            <a href="http://192.168.80.130//front/html/shop_product_show.php?pd_id=30"><img src="../../img/capture1.png"></a>
+                        </div>
+                        <div class="post">
+                            <a href="http://192.168.80.130//front/html/shop_product_show.php?pd_id=21"><img src="../../img/capture2.png"></a>
+                        </div>
+                        <div class="post">
+                            <a href="http://192.168.80.130//front/html/shop_product_show.php?pd_id=31"><img src="../../img/capture0.jpg"></a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -79,6 +79,14 @@
         </div>
     </div>
     <script>
+
+    //조회수 늘리기 - 비동기
+    fetch('http://192.168.80.130/back/php/add_view.php?cm_id='+'<?=$content_id?>'+'&cm_view='+'<?=$cm_view?>')
+    .then((res) => res.text())
+    .then((data) => {
+        console.log(data);
+    });
+
         function update_content() {
 
             let newForm = document.createElement('form');

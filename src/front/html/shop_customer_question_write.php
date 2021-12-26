@@ -55,8 +55,8 @@
             <!-- <input type="button" value="등록하기" onclick=""> -->
         </div>
         <div class="main_top">
-            <p class="title">고객센터</p>
-            <p class="subtitle">상품에 관련된 문의를 자유롭게 해주세요. </p>
+            <p class="title">공지사항</p>
+            <p class="subtitle">새로운 소식을 등록해주세요. </p>
         </div>
         <form action="../../back/php/shop_save_content.php" method="post" enctype="multipart/form-data" id="sendform">
             <div class="board_write_list_wrap">
@@ -64,7 +64,7 @@
                     <caption>글쓰기 형식</caption>
                     <thead>
                         <tr>
-                            <th>문의 내용을 적어주세요</th>
+                            <th>공지할 내용을 적어주세요</th>
                         </tr>
                     </thead>
                     <tbody>
