@@ -10,10 +10,16 @@
 
     $search = $_GET['user_search'];
 
+    if(isset($_GET["page"])){
+        $page = $_GET["page"]; // 하단에서 다른 페이지 클릭하면 해당 페이지 값 가져와서 보여줌
+    } else {
+        $page = 1; // 게시판 처음 들어가면 1페이지로 시작
+    }
+
     $sql = "SELECT * FROM pd_info_table I 
     INNER JOIN pd_category_table C ON I.cg_id = C.cg_id 
     WHERE I.pd_name like '%$search%'
-    ORDER BY I.pd_id DESC;";
+    ORDER BY I.pd_id DESC";
     $result = mysqli_query($conn,$sql);
     $exist_num = mysqli_num_rows($result);
 
@@ -48,14 +54,43 @@
     <div class="product_list_wrap">
         <ul class="product_list">
             <?php
-                for ($i=0; $i<$exist_num; $i=$i+1){
-                    $row= mysqli_fetch_array($result);
+
+                $list = 3; //보여줄 게시물 개수
+                $block_cnt = 3; //블록페이지 개수
+                $block_num = ceil($page/$block_cnt);
+                $block_start = (($block_num-1)*$block_cnt)+1;
+                $block_end = $block_start + $block_cnt - 1;
+
+                $current = ($page-1) * $list;
+
+                $total_page = ceil($exist_num/$list);
+                //자료수가 적으면 페이지 블록 갯수 조절
+                if($block_end > $total_page){
+                    $block_end = $total_page;
+                }
+                $total_block = ceil($total_page/$block_cnt);
+                $page_start = ($page-1)*$list;
+
+                $sql_pageRecord = "SELECT * FROM pd_info_table
+                WHERE pd_name like '%$search%'
+                ORDER BY pd_id DESC
+                LIMIT $page_start,$list";
+
+                $result_pageRecord = mysqli_query($conn,$sql_pageRecord);
+
+                if (mysqli_num_rows($result_pageRecord) < $list){
+                    $list = mysqli_num_rows($result_pageRecord);
+                }
+
+
+                for ($i=0; $i<$list; $i=$i+1){
+                    $row= mysqli_fetch_array($result_pageRecord);
 
                     $pd_id = $row['pd_id']; //상품고유번호
                     $pd_name = $row['pd_name']; //상품이름 1
                     $pd_price = $row['pd_price']; //상품가격 1
                     $pd_imgpath = $row['pd_imgpath']; //상품이미지 1
-                    $cg_name = $row['cg_name']; //카테고리 이름
+                    // $cg_name = $row['cg_name']; //카테고리 이름
                     $pd_get = "http://192.168.80.130//front/html/shop_product_show.php?pd_id=".$pd_id;
 
             ?>
@@ -75,13 +110,42 @@
             ?>
         </ul>
         <div class="paging">
-            <a href="#" class="btn">처음</a>
-            <a href="#" class="btn">이전</a>
-            <a href="#" class="num">1</a>
-            <a href="#" class="num">2</a>
-            <a href="#" class="num">3</a>
-            <a href="#" class="btn">다음</a>
-            <a href="#" class="btn">마지막</a>
+            <?php
+                //처음 만들기
+                if($page <= 1){
+                    //빈거
+                } else{
+                    echo "<a href='shop_search.php?page=1&user_search=$search'>처음</a>";
+                }
+                //이전 만들기
+                if($page <= 1){
+                    //빈거
+                } else {
+                    $pre = $page - 1;
+                    echo "<a href='shop_search.php?page=$pre&user_search=$search'>이전</a>";
+                }
+
+                for ($i = $block_start; $i <= $block_end; $i++){
+                    if($page == $i){
+                        echo "<a class='num on'>$i</a>";
+                    } else {
+                        echo "<a href='shop_search.php?page=$i&user_search=$search' class='num'>$i</a>";
+                    }
+                }
+
+                if($page >= $total_page){
+                    //빈거
+                } else {
+                    $next = $page + 1;
+                    echo "<a href='shop_search.php?page=$next&user_search=$search'>다음</a>";
+                }
+
+                if($page >= $total_page) {
+                    //빈거
+                } else {
+                    echo "<a href='shop_search.php?page=$total_page&user_search=$search'>마지막</a>";
+                }
+            ?>
         </div>
     </div>
 </body>

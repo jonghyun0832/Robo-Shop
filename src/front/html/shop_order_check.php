@@ -3,7 +3,7 @@
     include "../../back/php/connect_mysql.php";
 
     $sql_order = "SELECT * FROM order_table
-    ORDER BY od_id DESC;";
+    ORDER BY od_boolean, od_id DESC";
 
     $result_order = mysqli_query($conn,$sql_order);
     $exist = mysqli_num_rows($result_order);
@@ -46,7 +46,7 @@
                         <th class="sixth">처리상태</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class = "infinite">
                     <?php
                     for ($j=0; $j<$exist; $j=$j+1){
                         $row= mysqli_fetch_array($result_order);
@@ -100,7 +100,7 @@
                             }
                         }
                     ?>
-                    <tr>
+                    <tr class="list">
                         <td class="date"><?=$od_cdate?></td>
                         <td class="tit">
                             <?=$pd_name_str?>
@@ -160,6 +160,10 @@
                 return;
             }
         }
+
+
+        
+
     </script>
 
 </body>

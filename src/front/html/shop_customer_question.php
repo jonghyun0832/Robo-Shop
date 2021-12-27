@@ -13,7 +13,10 @@
         $page = 1; // 게시판 처음 들어가면 1페이지로 시작
     }
 
-    $sql = "SELECT * FROM community_table C INNER JOIN user_table U ON C.user_id = U.user_id ORDER BY cm_id DESC";
+    $sql = "SELECT * FROM community_table C 
+    INNER JOIN user_table U 
+    ON C.user_id = U.user_id 
+    ORDER BY cm_id DESC";
     $result = mysqli_query($conn,$sql);
     $exist_num = mysqli_num_rows($result);
 ?>
@@ -55,8 +58,8 @@
                 <tbody>
                 <?php
 
-                    $list = 3; //보여줄 게시물 개수
-                    $block_cnt = 4; //블록페이지 개수
+                    $list = 4; //보여줄 게시물 개수
+                    $block_cnt = 3; //블록페이지 개수
                     $block_num = ceil($page/$block_cnt);
                     $block_start = (($block_num-1)*$block_cnt)+1;
                     $block_end = $block_start + $block_cnt - 1;
@@ -64,8 +67,13 @@
                     $current = ($page-1) * $list;
 
                     $total_page = ceil($exist_num/$list);
+                    //자료수가 적으면 페이지 블록 갯수 조절
                     if($block_end > $total_page){
                         $block_end = $total_page;
+                    }
+                    //get의 페이지를 임의로 바꿔서 block_end보다 크면 마지막 페이지로 조절
+                    if ($page > $block_end){
+                        $page = $block_end;
                     }
                     $total_block = ceil($total_page/$block_cnt);
                     $page_start = ($page-1)*$list;

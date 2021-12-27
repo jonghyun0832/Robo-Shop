@@ -119,14 +119,15 @@ caption {
     margin-left: 0;
 }
 
-.product_list_wrap .paging a.bt{
-    background-color: #eee;
-    border:1px solid #eee;
+.product_list_wrap .paging a.num{
+    border:1px solid green;
+    font-weight: 600;
+    color: green;
 }
 
-.product_list_wrap .paging a.num{
-    border:1px solid #000;
-    font-weight: 600; 
+.product_list_wrap .paging a.num.on{
+    background-color: green;
+    color: #fff ;
 }
 
 
