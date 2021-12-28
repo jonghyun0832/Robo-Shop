@@ -1,0 +1,51 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/test.css">
+</head>
+<body>
+    <div class="example">
+        <h1 class="title">Scroll Down <span class="arrow">👇</span></h1>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box1"></div>
+    </div>
+</body>
+</html>
+
+<script>
+
+    const options = {
+        root: null, // 또는 scrollable 한 element root: document.querySelector('#scrollArea'),
+        rootMargin: '10px', // 기본값 0px 상우하좌
+        threshold: 0.5 // 0.0 ~ 1.0 사이의 숫자. 배열도 가능
+        }
+
+    const io = new IntersectionObserver((entries,observer) => {
+  entries.forEach(entry => {
+    //   console.log('entry:',entry);
+    //   console.log('observer:',observer);
+  	// 관찰 대상이 viewport 안에 들어온 경우 'tada' 클래스를 추가
+    if (entry.intersectionRatio > 0) {
+      entry.target.classList.add('tada');
+      console.log("들어왔음");
+    }
+    // 그 외의 경우 'tada' 클래스 제거
+    else {
+      entry.target.classList.remove('tada');
+      console.log("그외는 삭제");
+    }
+  })
+})
+
+// 관찰할 대상을 선언하고, 해당 속성을 관찰시킨다.
+const boxElList = document.querySelectorAll('.box1');
+boxElList.forEach((el) => {
+    console.log("io.observe실행");
+  io.observe(el);
+})
+</script>

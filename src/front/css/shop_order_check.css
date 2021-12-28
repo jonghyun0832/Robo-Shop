@@ -131,7 +131,12 @@ table {
 }
 
 .empty{
-    height: 50px;
+    height: 1px;
+}
+
+#sentinel{
+    width: 1px;
+    height: 1px;
 }
 
 

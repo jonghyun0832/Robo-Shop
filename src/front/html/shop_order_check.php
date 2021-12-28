@@ -46,7 +46,7 @@
                         <th class="sixth">처리상태</th>
                     </tr>
                 </thead>
-                <tbody class = "infinite">
+                <tbody class = "infinite" id = "infinite">
                     <?php
                     for ($j=0; $j<$exist; $j=$j+1){
                         $row= mysqli_fetch_array($result_order);
@@ -138,7 +138,7 @@
             </table>
         </div>
     </div>
-
+    <!-- <script type="text/javascript" src="../js/order_check.js"></script> -->
     <script>
         function order_complete(j,od_id){
             console.log("처리처리");
@@ -161,8 +161,145 @@
             }
         }
 
-
         
+
+        function load_data(page,bool) {
+            if (bool == 0){ //데이터 끝나면 스크롤을 멈춘다.
+                fetch('http://192.168.80.130/back/php/load_data.php?page='+now_page+'&end='+bool)
+                .then((res) => res.text())
+                .then((data) => {
+                    switch(data){
+                        case 'false':{ //불러올게 없을떄
+                            console.log(data);
+                            console.log(now_page);
+                            io.disconnect();
+                        }
+                        default:{ //데이터 불러올떄
+                            data1 = JSON.parse(data);
+                            console.log(data1);
+                            console.log(now_page);
+                            now_page = now_page + 1;
+                            end = data1[0][0];
+
+                            data_len = data1.length;
+
+                            let tbody = document.getElementById('infinite');
+
+                            for (var i = 0; i < data_len; i++) {
+                                
+                                let tr = document.createElement('tr');
+                                // let tr = document.createElement('tr');
+                                let td2 = document.createElement('td');
+                                td2.setAttribute('class','date');
+
+                                let td3 = document.createElement('td');
+                                td3.setAttribute('class','tit');
+
+                                let td4 = document.createElement('td');
+                                td4.setAttribute('class','price');
+
+                                let td5 = document.createElement('td');
+                                td5.setAttribute('class','consumer');
+                                
+                                let div_name = document.createElement('div');
+                                let div_email = document.createElement('div');
+                                let div_phone_number = document.createElement('div');
+                                let div_address_post = document.createElement('div');
+                                let div_address_detail = document.createElement('div');
+                                
+                                div_name.innerHTML = data1[i][4];
+                                div_email.innerHTML = data1[i][5];
+                                div_phone_number.innerHTML = data1[i][6];
+                                div_address_post.innerHTML = data1[i][7];
+                                div_address_detail.innerHTML = data1[i][8] +" "+ data1[i][9];
+
+                                td5.appendChild(div_name);
+                                td5.appendChild(div_email);
+                                td5.appendChild(div_phone_number);
+                                td5.appendChild(div_address_post);
+                                td5.appendChild(div_address_detail);
+
+
+                                let td6 = document.createElement('td');
+                                td6.setAttribute('class','done');
+
+                                // <span class="process" id="od_complete<?=$j?>" onclick="order_complete(<?=$j?>,<?=$od_id?>)">
+
+                                let span = document.createElement('span');
+
+                                td2.innerHTML = data1[i][1];
+                                td3.innerHTML = data1[i][2];
+                                td4.innerHTML = data1[i][3].toLocaleString('ko-KR')+"원";
+                                //td5.innerHTML = "구매자정보";
+                                td6.innerHTML = data1[i][10];
+
+                                
+                                tr.appendChild(td2);
+                                tr.appendChild(td3);
+                                tr.appendChild(td4);
+                                tr.appendChild(td5);
+                                tr.appendChild(td6);
+
+                                tbody.appendChild(tr);
+
+                            }
+                            let tr_empty = document.createElement('tr');
+                            tr_empty.setAttribute('class','empty');
+                            tr_empty.setAttribute('id','empty'+now_page);
+
+                            tbody.appendChild(tr_empty);
+
+                            changeTarget(now_page);
+                        }
+                    }
+                });
+
+
+
+            }
+            
+        }
+
+        // const options = {
+        // root: null, // 또는 scrollable 한 element root: document.querySelector('#scrollArea'),
+        // rootMargin: '10px', // 기본값 0px 상우하좌
+        // threshold: 0.5 // 0.0 ~ 1.0 사이의 숫자. 배열도 가능
+        // }
+
+        let now_page = 0;
+        let end = 0;
+
+        const io = new IntersectionObserver((entries,observer) => {
+            entries.forEach(entry => {
+                //   console.log('entry:',entry);
+                //   console.log('observer:',observer);
+                // 관찰 대상이 viewport 안에 들어온 경우 'tada' 클래스를 추가
+                if (entry.intersectionRatio > 0) {
+                    // entry.target.classList.add('tada');
+                    console.log("들어왔음");
+                    load_data(now_page,end);
+                }
+                // 그 외의 경우 'tada' 클래스 제거
+                else {
+                    // entry.target.classList.remove('tada');
+                    console.log("그외는 삭제");
+                }
+            })
+        });
+
+        // 관찰할 대상을 선언하고, 해당 속성을 관찰시킨다.
+        const boxElList = document.querySelectorAll('.empty');
+        boxElList.forEach((el) => {
+            console.log("io.observe실행");
+            io.observe(el);
+        })
+
+        function changeTarget(npage) {
+            io.disconnect();
+            console.log("타겟들어옴");
+            nid = "empty" + npage;
+            io.observe(document.getElementById(nid));
+        }
 
     </script>
 
