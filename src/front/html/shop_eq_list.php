@@ -253,9 +253,31 @@
                     buyer_postcode : '15823'
                 }, function(rsp) {
                     if ( rsp.success ) {
-                        var msg = '결제가 완료되었습니다.';
-                        alert(msg);
-                        location.href='http://192.168.80.130/front/html/shop.php';
+
+                        var userData = {
+                            'user_id' : '<?=$login_user_id?>',
+                            'pd_id_str' : pd_id,
+                            'pd_count_str' : 1
+                        };
+
+                        var newForm = document.createElement('form');
+                        newForm.name = 'newForm';
+                        newForm.method = 'post';
+                        newForm.action = 'http://192.168.80.130/back/php/make_order.php';
+                        
+                        for (var key in userData){
+                        var input_data = document.createElement('input');
+                        
+                        input_data.setAttribute("type", "text");
+                        input_data.setAttribute("name",key);
+                        input_data.setAttribute("value",userData[key]);
+
+                        newForm.appendChild(input_data);
+                        }
+                        document.body.appendChild(newForm);
+
+                        newForm.submit();
+                        
                     } else {
                         var msg = '결제에 실패하였습니다.';
                         alert(msg);

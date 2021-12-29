@@ -24,7 +24,7 @@ function order_complete(od_id){
 
 function load_data(page,bool) {
     if (bool == 0){ //데이터 끝나면 스크롤을 멈춘다.
-        fetch('http://192.168.80.130/back/php/load_data.php?page='+now_page+'&end='+bool)
+        fetch('http://192.168.80.130/back/php/load_data.php?page='+now_page+'&end='+bool+'&cdate='+cdate+'&exist='+exist)
         .then((res) => res.text())
         .then((data) => {
             switch(data){
@@ -41,6 +41,10 @@ function load_data(page,bool) {
                     end = data1[0][0];
 
                     data_len = data1.length;
+
+                    cdate = data1[data_len-1][12];
+                    exist = data1[data_len-1][13];
+                    
 
                     let tbody = document.getElementById('infinite');
 
@@ -152,6 +156,8 @@ function load_data(page,bool) {
 
 let now_page = 1;
 let end = 0;
+let cdate = 0;
+let exist = 0;
 
 const io = new IntersectionObserver((entries,observer) => {
     entries.forEach(entry => {

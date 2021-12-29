@@ -4,18 +4,39 @@
 
     $end = $_GET['end'];
     $page = $_GET['page'];
+    $cdate = $_GET['cdate']; //커서페이징용
+    $exist = $_GET['exist'];
+    //$cdate_cursor = DATE_FORMAT($cdate, '%Y%m%d%H%i%S');
     //$page_item = $_GET['page_item'];
+
+
+
     $page_item = 5;
 
     $page_start = (int)$page * (int)$page_item;
+
+    if ($cdate == 0){
+        $sql = "SELECT od_boolean, od_id FROM order_table
+        ORDER BY od_boolean, od_id DESC
+        LIMIT 4,1";
+        $result = mysqli_query($conn,$sql);
+        $row= mysqli_fetch_array($result);
+        $concat = 99999 - (int)$row['od_id'];
+        $cdate = str_pad($row['od_boolean'],5,0).$concat;
+
+        $sql_total = "SELECT * FROM order_table
+        ORDER BY od_boolean, od_id DESC";
+        $result_total = mysqli_query($conn,$sql_total);
+        $exist = mysqli_num_rows($result_total);
+    }
 
     //전체 데이터 갯수 확인
     $sql_total = "SELECT * FROM order_table
     ORDER BY od_boolean, od_id DESC";
     $result_total = mysqli_query($conn,$sql_total);
-    $exist = mysqli_num_rows($result_total);
+    //$exist = mysqli_num_rows($result_total);
 
-    if ($page_start + $page_item > $exist && $end == 0){
+    if ($page_start + $page_item >= $exist && $end == 0){
         $page_item = $exist - $page_start;
         $end = 1;
         //echo "endpaging";
@@ -23,9 +44,11 @@
 
         $tmp2Array = array();
     
-        $sql = "SELECT * FROM order_table
+        $sql = "SELECT *,CONCAT(RPAD(od_boolean,5,0),99999 - od_id) as 'od_cursor' FROM order_table
+        WHERE CONCAT(RPAD(od_boolean,5,0), 99999 - od_id) > $cdate
         ORDER BY od_boolean, od_id DESC
-        LIMIT $page_start,$page_item";
+        LIMIT $page_item";
+        //여기에 where절 들어가야됨
 
         $result = mysqli_query($conn,$sql);
 
@@ -39,6 +62,7 @@
             $user_id = $row['user_id'];
             $od_cdate = $row['od_cdate']; //생성일
             $od_boolean = $row['od_boolean']; //처리여부
+            $od_cursor = $row['od_cursor'];
 
             //데이터 쪼개서 배열로만들기
             $pd_id_arr = explode(",",$pd_id_str); //상품id 리스트
@@ -85,7 +109,7 @@
 
             array_push($tmpArray,$end,$od_cdate,$pd_name_str,$pd_total_price,$user_name,
             $user_email,$user_phone_number,$user_address_post,$user_address,
-            $user_address_detail,$od_boolean,$od_id);
+            $user_address_detail,$od_boolean,$od_id,$od_cursor,$exist);
 
             //$tmp2Array = array("$j"=>$tmpArray);
             array_push($tmp2Array,$tmpArray);
