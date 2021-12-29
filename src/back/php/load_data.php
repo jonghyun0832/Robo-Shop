@@ -85,7 +85,7 @@
 
             array_push($tmpArray,$end,$od_cdate,$pd_name_str,$pd_total_price,$user_name,
             $user_email,$user_phone_number,$user_address_post,$user_address,
-            $user_address_detail,$od_boolean);
+            $user_address_detail,$od_boolean,$od_id);
 
             //$tmp2Array = array("$j"=>$tmpArray);
             array_push($tmp2Array,$tmpArray);

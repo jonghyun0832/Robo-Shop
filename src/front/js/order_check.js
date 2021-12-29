@@ -1,5 +1,6 @@
-function order_complete(j,od_id){
+function order_complete(od_id){
     console.log("처리처리");
+    console.log(od_id);
     if (confirm("주문을 완료 처리 하시겠습니까?") == true){
         fetch('http://192.168.80.130/back/php/order_finish.php?od_id='+od_id)
         .then((res) => res.text())
@@ -7,12 +8,12 @@ function order_complete(j,od_id){
             console.log(data);
             // alert("처리완료")
             // location.href='http://192.168.80.130/front/html/shop_order_check.php';
-            const btn_done = document.getElementById('od_complete'+j);
+            const btn_done = document.getElementById('od_complete'+od_id);
             btn_done.innerText = "처리완료";
             btn_done.style.color = "white";
             btn_done.style.border = "none";
             btn_done.style.backgroundColor = "green";
-            window.location.reload();
+            //window.location.reload();
         });
     } else {
         return;
@@ -30,6 +31,7 @@ function load_data(page,bool) {
                 case 'false':{ //불러올게 없을떄
                     console.log(data);
                     console.log(now_page);
+                    io.disconnect();
                 }
                 default:{ //데이터 불러올떄
                     data1 = JSON.parse(data);
@@ -37,16 +39,106 @@ function load_data(page,bool) {
                     console.log(now_page);
                     now_page = now_page + 1;
                     end = data1[0][0];
+
+                    data_len = data1.length;
+
+                    let tbody = document.getElementById('infinite');
+
+                    for (var i = 0; i < data_len; i++) {
+                        
+                        let tr = document.createElement('tr');
+                        // let tr = document.createElement('tr');
+                        let td2 = document.createElement('td');
+                        td2.setAttribute('class','date');
+
+                        let td3 = document.createElement('td');
+                        td3.setAttribute('class','tit');
+
+                        let td4 = document.createElement('td');
+                        td4.setAttribute('class','price');
+
+                        let td5 = document.createElement('td');
+                        td5.setAttribute('class','consumer');
+                        
+                        let div_name = document.createElement('div');
+                        let div_email = document.createElement('div');
+                        let div_phone_number = document.createElement('div');
+                        let div_address_post = document.createElement('div');
+                        let div_address_detail = document.createElement('div');
+                        
+                        div_name.innerHTML = data1[i][4];
+                        div_email.innerHTML = data1[i][5];
+                        div_phone_number.innerHTML = data1[i][6];
+                        div_address_post.innerHTML = data1[i][7];
+                        div_address_detail.innerHTML = data1[i][8] +" "+ data1[i][9];
+
+                        td5.appendChild(div_name);
+                        td5.appendChild(div_email);
+                        td5.appendChild(div_phone_number);
+                        td5.appendChild(div_address_post);
+                        td5.appendChild(div_address_detail);
+
+
+                        let td6 = document.createElement('td');
+                        td6.setAttribute('class','done');
+
+                        let td7 = document.createElement('td');
+                        td7.setAttribute('class','idd');
+
+                        if (data1[i][10] == 0){
+                            //console.log("0들어옴");
+                            let span_done = document.createElement('span');
+                            span_done.setAttribute('class','process');
+                            span_done.setAttribute('id','od_complete'+data1[i][11]);
+                            //span_done.setAttribute('onclick',order_complete(data1[i][11]));
+                            //span_done.onclick=order_complete(data1[i][11]);
+                            td7.setAttribute('id','od_id'+data1[i][11])
+                            td7.innerHTML = data1[i][11];
+                            //od_fid = data1[i][11];
+                            span_done.onclick = function() {
+                                const od_fff = document.getElementById('od_id'+td7.innerHTML).innerHTML;
+                                console.log(od_fff);
+                                order_complete(od_fff)};
+                            span_done.innerHTML = "미처리";
+                            td6.appendChild(span_done);
+                        } else {
+                            //console.log("1들어옴");
+                            let span_done = document.createElement('span');
+                            span_done.setAttribute('class','finish');
+                            span_done.setAttribute('id','od_complete'+data1[i][11]);
+                            span_done.innerHTML = "처리완료";
+                            td6.appendChild(span_done);
+                        }
+
+                        td2.innerHTML = data1[i][1];
+                        td3.innerHTML = data1[i][2];
+                        td4.innerHTML = data1[i][3].toLocaleString('ko-KR')+"원";
+                        //td5.innerHTML = "구매자정보";
+                        //td6.innerHTML = data1[i][10];
+
+                        
+                        tr.appendChild(td2);
+                        tr.appendChild(td3);
+                        tr.appendChild(td4);
+                        tr.appendChild(td5);
+                        tr.appendChild(td6);
+                        tr.appendChild(td7);
+
+                        tbody.appendChild(tr);
+
+                    }
+                    let tr_empty = document.createElement('tr');
+                    tr_empty.setAttribute('class','empty');
+                    tr_empty.setAttribute('id','empty'+now_page);
+
+                    tbody.appendChild(tr_empty);
+
+                    changeTarget(now_page);
                 }
             }
         });
 
-        var tr = document.getElementById('list');
-        var td2 = document.createElement('td');
-        //td2.setAttribute('class','date');
-        //td2.setAttribute('value','22222222')
-        tr.appendChild(td2);
-        document.body.appendChild(tr);
+
 
     }
     
@@ -58,7 +150,7 @@ function load_data(page,bool) {
 // threshold: 0.5 // 0.0 ~ 1.0 사이의 숫자. 배열도 가능
 // }
 
-let now_page = 0;
+let now_page = 1;
 let end = 0;
 
 const io = new IntersectionObserver((entries,observer) => {
@@ -86,36 +178,9 @@ boxElList.forEach((el) => {
     io.observe(el);
 })
 
-
-
-
-
-// function YesScroll() {
-//     //페이지네이션 정보획득
-//     const pagination = document.querySelector('.pagination');
-//     //전체 컨텐츠 정보 획득
-//     const fullContent = document.querySelector('.infinite');
-//     //화면크기
-//     const screenHeight = screen.height;
-//     //일회용 글로벌 변수
-//     let oneTime = false;
-//     //e.preventDefault와는 같이 사용불가능 (passive:true) ->메인스레드 안써서 그럼
-//     //이벤트 처리와 별도로 컴포지터 스레드에서 composite를 수행해서 스크롤이 향상된다.
-//     document.addEventListener('scroll',OnScroll,{passive:true})
-//     function OnScroll(){ //스크롤 이벤트 함수
-//         //infinite class의 높이
-//         const fullHeight = fullContent.clientHeight;
-//         //스크롤 위치
-//         const scrollPosition = pageYOffset;
-
-//         if(fullHeight-screenHeight/2 <= scrollPosition && !oneTime){
-//             oneTime = true;
-//             madeBox(); //컨텐츠 추가하는 함수를 불러온다
-//         }
-//     }
-//     function madeBox(){
-
-//     }
-// }
-
-// YesScroll();
+function changeTarget(npage) {
+    io.disconnect();
+    console.log("타겟들어옴");
+    nid = "empty" + npage;
+    io.observe(document.getElementById(nid));
+}
